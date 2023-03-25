@@ -4,6 +4,7 @@
 */
 
 //Soft ass assignment, wijfje
+//Don't lose your mind wife everything will be okay
 
 // LTL formulas to be verified
 //ltl p1 { []<> (floor_request_made[1]==true) } /* this property does not hold, as a request for floor 1 can be indefinitely postponed. */
