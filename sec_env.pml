@@ -58,6 +58,16 @@ active proctype elevator_engine() {
 	od;
 }
 
+//theoretical algorithm
+//outside request recieved
+// while(request.pending) / when update comes in  {
+// for elevator 1:n{
+// 	if check request status (or if elevator is idle?){ add request to elevator i request stack and break;}
+//  else if request up and elevator status up and elevator below { >> }
+//  else if request down and elevator status down and elevator up { >> }
+//  }}
+// 	next request
+
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active proctype main_control() {
 	byte dest;
