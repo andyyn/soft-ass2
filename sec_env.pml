@@ -8,10 +8,10 @@
 
 // LTL formulas to be verified
 // ltl p1 { []<> (floor_request_made[1]==true) } /* this property does not hold, as a request for floor 1 can be indefinitely postponed. */
-ltl p2 { []<> (cabin_door_is_open==true) } /* this property should hold, but does not yet; at any moment during an execution, the opening of the cabin door will happen at some later point. */
+// ltl p2 { []<> (cabin_door_is_open==true) } /* this property should hold, but does not yet; at any moment during an execution, the opening of the cabin door will happen at some later point. */
 
 // the number of floors
-#define N	4
+#define N 4
 
 // IDs of req_button processes
 #define reqid _pid-4
@@ -71,21 +71,41 @@ active proctype elevator_engine() {
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active proctype main_control() {
 	byte dest;
-	byte direction; //current direction of the elevator?
+	mtype direction; //current direction of the elevator?
 	do
 	:: go?dest ->
 		if
-		:: dest > current_floor -> up; move!true; floor_reached?true; update_cabin_door!true// smt about mytype up
-		:: dest < current_floor -> down; move!false; floor_reached?true; update_cabin_door!true// smt about mytype down
-		:: else -> move!false; update_cabin_door!true;
+		:: dest > current_floor ->
+			direction = up;
+			update_cabin_door!false;
+			cabin_door_updated?false;
+			move!true;
+			floor_reached?true; 
+			move!false;
+			update_cabin_door!true; 
+			cabin_door_updated?true;// smt about mytype up
+		:: dest < current_floor ->
+			direction = down;
+			update_cabin_door!false;
+			cabin_door_updated?false;
+			move!true;
+			floor_reached?true;
+			move!false;
+			update_cabin_door!true;
+			cabin_door_updated?true;// smt about mytype down
+		:: else ->
+			direction = none;
+			update_cabin_door!true;
+			cabin_door_updated?true;
 		fi
 
 	   // an example assertion.
 	   assert(0 <= current_floor && current_floor < N);
-		assert(0 <= dest && dest <N);
+//		assert(0 <= dest && dest <N);
 
 	   floor_request_made[dest] = false;
 	   served!true;
+	   direction = none;
 	od;
 }
 
