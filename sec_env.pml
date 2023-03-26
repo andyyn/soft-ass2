@@ -11,7 +11,7 @@
 ltl p2 { []<> (cabin_door_is_open==true) } /* this property should hold, but does not yet; at any moment during an execution, the opening of the cabin door will happen at some later point. */
 
 // the number of floors
-#define N	2
+#define N	4
 
 // IDs of req_button processes
 #define reqid _pid-4
