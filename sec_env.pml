@@ -17,9 +17,9 @@ ltl p2 { []<> (cabin_door_is_open==true) } /* this property should hold, but doe
 #define reqid _pid-4
 
 // type for direction of elevator
-mtype { down, up, none };
+mtype { down, up, none }; // i want this to be a variable
 
-// asynchronous channel to handle passenger requests
+// asynchronous channel to handle passenger requestsg
 chan request = [N] of { byte };
 // status of requests per floor
 bool floor_request_made[N];
@@ -71,9 +71,14 @@ active proctype elevator_engine() {
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active proctype main_control() {
 	byte dest;
+	byte direction; //current direction of the elevator?
 	do
 	:: go?dest ->
-	   current_floor = dest;
+		if
+		:: dest > current_floor -> up; move!true; floor_reached?true; update_cabin_door!true// smt about mytype up
+		:: dest < current_floor -> down; move!false; floor_reached?true; update_cabin_door!true// smt about mytype down
+		:: else -> move!false; update_cabin_door!true;
+		fi
 
 	   // an example assertion.
 	   assert(0 <= current_floor && current_floor < N);
@@ -82,6 +87,14 @@ active proctype main_control() {
 	   served!true;
 	od;
 }
+
+// Note that since request is an asynchronous channel, it serves as a
+// request queue for the handler. Requests made by pressing a floor request button
+// are directly added to the queue. Checking for the presence of requests and
+// assigning them to the elevator, however, does not need to be done by the request
+// handler immediately when a request has been added to request. In other
+// words, request?dest can be executed at any time after a request!reqid
+// has been executed by a req_button process.
 
 // request handler process. Remodel this process to serve M elevators!
 active proctype req_handler() {
