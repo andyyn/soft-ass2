@@ -10,6 +10,12 @@
 // ltl p1 { []<> (floor_request_made[1]==true) } /* this property does not hold, as a request for floor 1 can be indefinitely postponed. */
 // ltl p2 { []<> (cabin_door_is_open==true) } /* this property should hold, but does not yet; at any moment during an execution, the opening of the cabin door will happen at some later point. */
 
+ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
+ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
+ltl b1 {[]<> (cabin_door_is_open==true)}
+ltl b2 {[]<> (cabin_door_is_open==false)}
+ltl c {cabin_door_is_open==true -> floor_door_is_open==true}
+
 // the number of floors
 #define N 4
 
@@ -71,30 +77,30 @@ active proctype elevator_engine() {
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active proctype main_control() {
 	byte dest;
-	mtype direction; //current direction of the elevator?
+	mtype direction; //current direction of the elevator
 	do
 	:: go?dest ->
+		update_cabin_door!false; // The door will close no matter the destination upon recieving a request
+		cabin_door_updated?false;
 		if
-		:: dest > current_floor ->
-			direction = up;
-			update_cabin_door!false;
-			cabin_door_updated?false;
+		:: dest > current_floor -> // Case where destination is above the current floor
+			direction = up; // The elevator will be moving upwards
 			move!true;
 			floor_reached?true; 
+			current_floor = dest; // Update current floor
 			move!false;
 			update_cabin_door!true; 
-			cabin_door_updated?true;// smt about mytype up
-		:: dest < current_floor ->
-			direction = down;
-			update_cabin_door!false;
-			cabin_door_updated?false;
+			cabin_door_updated?true;
+		:: dest < current_floor -> // Case where destination is below the current floor
+			direction = down; // The elevator will be moving downwards
 			move!true;
 			floor_reached?true;
+			current_floor = dest; // Update current floor
 			move!false;
 			update_cabin_door!true;
-			cabin_door_updated?true;// smt about mytype down
-		:: else ->
-			direction = none;
+			cabin_door_updated?true;
+		:: else -> // Case where destination is on the current floor
+			direction = none; // Elevator does not move
 			update_cabin_door!true;
 			cabin_door_updated?true;
 		fi
@@ -105,7 +111,6 @@ active proctype main_control() {
 
 	   floor_request_made[dest] = false;
 	   served!true;
-	   direction = none;
 	od;
 }
 
