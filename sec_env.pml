@@ -7,16 +7,6 @@
 //Don't lose your mind wife everything will be okay
 
 // LTL formulas to be verified
-// ltl p1 { []<> (floor_request_made[1]==true) } /* this property does not hold, as a request for floor 1 can be indefinitely postponed. */
-// ltl p2 { []<> (cabin_door_is_open==true) } /* this property should hold, but does not yet; at any moment during an execution, the opening of the cabin door will happen at some later point. */
-// ltl a1 { [] (floor_request_made[1] == true -> <> (current_floor = 1))} /* When a floor request is made at floor 1, then eventually the floor reaches floor 1. */
-// ltl a2 { [] (floor_request_made[1] == true -> <> (current_floor = 1))} /*When a request is made at floor 2, then eventually the elevator reaches floor 2 */
-// ltl b1 { []<> (cabin_door_is_open==true) }  /* Always eventually, the cabin door will be open. */
-// ltl b2 { []<> (cabin_door_is_open==false) }  /* Always eventually, the cabin door will be open. */
-// ltl c { [] (cabin_door_is_open==true -> floor_door_is_open[current_floor] == true) }  /* When the cabin door of the elevator is open, the floor door of the current floor of that elevator is open as well. */
-// ltl d { dunno }  /* A request always is for a valid floor, i.e., it has a value between 0 and N. */
-
-
 ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
 ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
 ltl b1 {[]<> (cabin_door_is_open==true)}
