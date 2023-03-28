@@ -61,16 +61,6 @@ active proctype elevator_engine() {
 	od;
 }
 
-//theoretical algorithm
-//outside request recieved
-// while(request.pending) / when update comes in  {
-// for elevator 1:n{
-// 	if check request status (or if elevator is idle?){ add request to elevator i request stack and break;}
-//  else if request up and elevator status up and elevator below { >> }
-//  else if request down and elevator status down and elevator up { >> }
-//  }}
-// 	next request
-
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active proctype main_control() {
 	byte dest;
@@ -110,14 +100,6 @@ active proctype main_control() {
 	   served!true;
 	od;
 }
-
-// Note that since request is an asynchronous channel, it serves as a
-// request queue for the handler. Requests made by pressing a floor request button
-// are directly added to the queue. Checking for the presence of requests and
-// assigning them to the elevator, however, does not need to be done by the request
-// handler immediately when a request has been added to request. In other
-// words, request?dest can be executed at any time after a request!reqid
-// has been executed by a req_button process.
 
 // request handler process. Remodel this process to serve M elevators!
 active proctype req_handler() {
