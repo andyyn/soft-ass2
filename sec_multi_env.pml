@@ -46,7 +46,7 @@ bool cabin_door_is_open[M]; // check if elevator M's doors are open
 chan update_cabin_door[M] = [0] of { bool };
 chan cabin_door_updated[M] = [0] of { bool };
 chan move[M] = [0] of { bool };
-chan floor_reached = [0] of { bool }; // i think this is just a flag to send im not sure if it needs that many
+chan floor_reached[M] = [0] of { bool }; // i think this is just a flag to send im not sure if it needs that many
 
 // synchronous channels for communication between request handler and main control
 chan go[M] = [0] of { byte };
@@ -56,17 +56,17 @@ chan served[M] = [0] of { bool };
 active[M] proctype cabin_door() { 
 	do
 	:: update_cabin_door[M]?true -> floor_door_is_open[current_floor[N]].shaft[M] = true; cabin_door_is_open[M] = true; cabin_door_updated[M]!true;
-	:: update_cabin_door?false -> cabin_door_is_open = false; floor_door_is_open[current_floor] = false; cabin_door_updated!false;
+	:: update_cabin_door[M]?false -> cabin_door_is_open[M] = false; floor_door_is_open[current_floor[N]].shaft[M] = false; cabin_door_updated[M]!false;
 	od;
 }
 
 // process combining the elevator engine and sensors
 active[M] proctype elevator_engine() {
 	do
-	:: move?true ->
+	:: move[M]?true ->
 		do
-		:: move?false -> break;
-		:: floor_reached!true;
+		:: move[M]?false -> break;
+		:: floor_reached[M]!true;
 		od;
 	od;
 }
@@ -86,7 +86,7 @@ active[M] proctype main_control() {
 	byte dest;
 	mtype direction; //current direction of the elevator
 	do
-	:: go?dest ->
+	:: go[M]?dest ->
 		update_cabin_door!false; // The door will close no matter the destination upon receiving a request
 		cabin_door_updated?false;
 		if
@@ -140,7 +140,6 @@ active proctype req_handler() {
    	do
 	:: 	elevator < M ->
     	request?dest -> go[M]!dest; served[M]?true;
-		M++;
     // ::  if 
     //     :: current_floor[M] > currentRequest;
     //         move[M]?true ->
