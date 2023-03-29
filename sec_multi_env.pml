@@ -17,8 +17,11 @@ ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
 // the number of floors
 #define N 4
 
+//the number of elevators
+#define M 2
+
 // IDs of req_button processes
-#define reqid _pid-4
+#define reqid (_pid-4)*M
 
 // type for direction of elevator
 mtype { down, up, none }; // i want this to be a variable
@@ -127,10 +130,12 @@ active[M] proctype main_control() {
 // has been executed by a req_button process.
 
 // request handler process. Remodel this process to serve M elevators!
+// Possible algorithm:
 // See the request queue, check elevator status
 // If elevator cabin is going up and requested floor is above current floor, assign person to this elevator
 // If elevator cabin is going down and requested floor is below current floor
 // Else it waits until an elevator is available
+// Current algo: assign the next destination in the queue to every elevator
 active proctype req_handler() {
 	byte dest;
 	byte elevator = 0
@@ -138,6 +143,7 @@ active proctype req_handler() {
 	:: 	elevator < M ->
     	request?dest -> go[M]!dest; served[M]?true;
 		M++;
+	::	else -> break;
     // ::  if 
     //     :: current_floor[M] > currentRequest;
     //         move[M]?true ->
@@ -150,7 +156,8 @@ active proctype req_handler() {
 
 // request button associated to a floor i to request an elevator
 // how many times should this be instantiated?
-active [N*M] proctype req_button() {
+// how to find the correct process Id?
+active [N] proctype req_button() {
 	do
 	:: !floor_request_made[reqid] ->
 	   atomic {
