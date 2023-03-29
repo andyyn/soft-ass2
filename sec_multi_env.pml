@@ -5,6 +5,7 @@
 
 //Soft ass assignment, wijfje
 //Don't lose your mind wife everything will be okay
+//Thank you schatje i will try my best but i think its already too late the damage is done theres nothing we can do the world is ending
 
 // LTL formulas to be verified
 ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
