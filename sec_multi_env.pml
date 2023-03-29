@@ -21,7 +21,10 @@ ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
 #define M 2
 
 // IDs of req_button processes
-#define reqid (_pid-4)*M
+#define reqid _pid-4*M
+#define cabin_door_id _pid - M
+#define elevator_engine_id _pid - 2*M
+#define main_control_id _pid - 3*M
 
 // type for direction of elevator
 mtype { down, up, none }; // i want this to be a variable
