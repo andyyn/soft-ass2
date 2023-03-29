@@ -90,37 +90,37 @@ active[M] proctype main_control() {
 	mtype direction; //current direction of the elevator
 	do
 	:: go[M]?dest ->
-		update_cabin_door!false; // The door will close no matter the destination upon receiving a request
-		cabin_door_updated?false;
+		update_cabin_door[M]!false; // The door will close no matter the destination upon receiving a request
+		cabin_door_updated[M]?false;
 		if
-		:: dest > current_floor -> // Case where destination is above the current floor
+		:: dest > current_floor[M] -> // Case where destination is above the current floor
 			direction = up; // The elevator will be moving upwards
-			move!true;
-			floor_reached?true; 
-			current_floor = dest; // Update current floor
-			move!false;
-			update_cabin_door!true; 
-			cabin_door_updated?true;
-		:: dest < current_floor -> // Case where destination is below the current floor
+			move[M]!true;
+			floor_reached[M]?true; 
+			current_floor[M] = dest; // Update current floor
+			move[M]!false;
+			update_cabin_door[M]!true; 
+			cabin_door_updated[M]?true;
+		:: dest < current_floor[M] -> // Case where destination is below the current floor
 			direction = down; // The elevator will be moving downwards
-			move!true;
-			floor_reached?true;
-			current_floor = dest; // Update current floor
-			move!false;
-			update_cabin_door!true;
-			cabin_door_updated?true;
+			move[M]!true;
+			floor_reached[M]?true;
+			current_floor[M] = dest; // Update current floor
+			move[M]!false;
+			update_cabin_door[M]!true;
+			cabin_door_updated[M]?true;
 		:: else -> // Case where destination is on the current floor
 			direction = none; // Elevator does not move
-			update_cabin_door!true;
-			cabin_door_updated?true;
+			update_cabin_door[M]!true;
+			cabin_door_updated[M]?true;
 		fi
 
 	   // an example assertion.
-	   assert(0 <= current_floor && current_floor < N);
+	   assert(0 <= current_floor[M] && current_floor[M] < N);
 //		assert(0 <= dest && dest <N);
 
 	   floor_request_made[dest] = false;
-	   served!true;
+	   served[M]!true;
 	od;
 }
 
