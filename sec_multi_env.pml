@@ -132,15 +132,18 @@ active[M] proctype main_control() {
 // Else it waits until an elevator is available
 active proctype req_handler() {
 	byte dest;
+	byte elevator = 0
    	do
-    ::  byte currentRequest = request?dest;
-    ::  if 
-        :: current_floor[M] > currentRequest;
-            move[M]?true ->
-            go!dest; served?true;
-        :: current_floor[M] < currentRequest;
-            move[M]?true ->
-            go!dest; served? true;
+	:: 	elevator < M ->
+    	request?dest -> go[M]!dest; served[M]?true;
+		M++;
+    // ::  if 
+    //     :: current_floor[M] > currentRequest;
+    //         move[M]?true ->
+    //         go!dest; served?true;
+    //     :: current_floor[M] < currentRequest;
+    //         move[M]?true ->
+    //         go!dest; served? true;
 	od;
 }
 
