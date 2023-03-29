@@ -8,14 +8,17 @@
 //Thank you schatje i will try my best but i think its already too late the damage is done theres nothing we can do the world is ending
 
 // LTL formulas to be verified
-ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
-ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
-ltl b1 {[]<> (cabin_door_is_open==true)}
-ltl b2 {[]<> (cabin_door_is_open==false)}
-ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
+// ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
+// ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
+// ltl b1 {[]<> (cabin_door_is_open==true)}
+// ltl b2 {[]<> (cabin_door_is_open==false)}
+// ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
 
 // the number of floors
-#define N 4
+#define N 3
+
+// the number of elevators
+#define M 3
 
 // IDs of req_button processes
 #define reqid _pid-4
@@ -30,20 +33,20 @@ chan request = [N] of { byte };
 bool floor_request_made[N];
 
 // status of floor doors of the shaft of the single elevator
-typedef shaft {
+typedef shafts {
     bool shaft[N];
 };
 //array containing M shafts
-shaft floor_door_is_open[M]; 
+shafts floor_door_is_open[M]; 
 
 // status and synchronous channels for elevator cabin and engine
 byte current_floor[M];
-bool cabin_door_is_open[M];
+bool cabin_door_is_open[M]; // check if elevator M's doors are open
 
 chan update_cabin_door[M] = [0] of { bool };
 chan cabin_door_updated[M] = [0] of { bool };
 chan move[M] = [0] of { bool };
-chan floor_reached[M] = [0] of { bool };
+chan floor_reached = [0] of { bool }; // i think this is just a flag to send im not sure if it needs that many
 
 // synchronous channels for communication between request handler and main control
 chan go[M] = [0] of { byte };
@@ -52,7 +55,7 @@ chan served[M] = [0] of { bool };
 // cabin door process
 active[M] proctype cabin_door() { 
 	do
-	:: update_cabin_door?true -> floor_door_is_open[current_floor] = true; cabin_door_is_open = true; cabin_door_updated!true;
+	:: update_cabin_door[M]?true -> floor_door_is_open[current_floor[N]].shaft[M] = true; cabin_door_is_open[M] = true; cabin_door_updated[M]!true;
 	:: update_cabin_door?false -> cabin_door_is_open = false; floor_door_is_open[current_floor] = false; cabin_door_updated!false;
 	od;
 }
