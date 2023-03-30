@@ -499,8 +499,8 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln4 [] = {
-	  0, 159, 161, 162, 160, 158, 165, 158, 
-	165,   0, };
+	  0, 161, 163, 164, 162, 160, 167, 160, 
+	167,   0, };
 S_F_MAP src_file4 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 8 },
@@ -512,8 +512,8 @@ uchar reached4 [] = {
 uchar *loopstate4;
 
 short src_ln3 [] = {
-	  0, 150, 150, 150, 150, 149, 152, 149, 
-	152,   0, };
+	  0, 152, 152, 152, 152, 151, 154, 151, 
+	154,   0, };
 S_F_MAP src_file3 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 8 },
@@ -525,27 +525,27 @@ uchar reached3 [] = {
 uchar *loopstate3;
 
 short src_ln2 [] = {
-	  0,  96,  97,  98, 100, 101, 102, 103, 
-	104, 105, 106, 107, 108, 109, 110, 111, 
-	112, 113, 114, 115, 116, 117, 118, 119, 
-	 99, 123, 123, 126, 127,  95, 129,  95, 
-	129,   0, };
+	  0,  96,  98,  99, 100, 102, 103, 104, 
+	105, 106, 107, 108, 109, 110, 111, 112, 
+	113, 114, 115, 116, 117, 118, 119, 120, 
+	121, 101, 128, 128, 129,  97, 131,  97, 
+	131,   0, };
 S_F_MAP src_file2 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 32 },
 	{ "-", 33, 34 }
 };
 uchar reached2 [] = {
-	  0,   1,   0,   0,   1,   0,   0,   0, 
-	  0,   0,   0,   0,   1,   0,   0,   0, 
-	  0,   0,   0,   0,   1,   0,   0,   0, 
-	  0,   1,   0,   0,   0,   0,   1,   1, 
+	  0,   0,   1,   0,   0,   1,   0,   0, 
+	  0,   0,   0,   0,   0,   1,   0,   0, 
+	  0,   0,   0,   0,   0,   1,   0,   0, 
+	  0,   0,   1,   0,   0,   0,   1,   1, 
 	  0,   0, };
 uchar *loopstate2;
 
 short src_ln1 [] = {
-	  0,  73,  75,  75,  76,  74,  78,  74, 
-	 72,  79,  72,  79,   0, };
+	  0,  75,  77,  77,  78,  76,  80,  76, 
+	 74,  81,  74,  81,   0, };
 S_F_MAP src_file1 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 11 },
@@ -557,16 +557,16 @@ uchar reached1 [] = {
 uchar *loopstate1;
 
 short src_ln0 [] = {
-	  0,  65,  65,  65,  65,  66,  66,  66, 
-	 66,  64,  68,  64,  68,   0, };
+	  0,  66,  67,  67,  67,  67,  68,  68, 
+	 68,  68,  65,  70,  65,  70,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "sec_multi_env.pml", 1, 12 },
-	{ "-", 13, 14 }
+	{ "sec_multi_env.pml", 1, 13 },
+	{ "-", 14, 15 }
 };
 uchar reached0 [] = {
-	  0,   1,   0,   0,   0,   1,   0,   0, 
-	  0,   0,   1,   1,   0,   0, };
+	  0,   1,   1,   0,   0,   0,   1,   0, 
+	  0,   0,   0,   1,   1,   0,   0, };
 uchar *loopstate0;
 uchar reached5[3];  /* np_ */
 uchar *loopstate5;  /* np_ */
@@ -923,18 +923,16 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 2:	/* main_control */
 		((P2 *)pptr(h))->_t = 2;
-		((P2 *)pptr(h))->_p = 29;
+		((P2 *)pptr(h))->_p = 1;
 #ifdef HAS_PRIORITY
 		((P2 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached2[29]=1;
+		reached2[1]=1;
 		/* params: */
 		/* locals: */
-		((P2 *)pptr(h))->dest = 0;
-		((P2 *)pptr(h))->direction = 0;
+		((P2 *)pptr(h))->destination = 0;
 #ifdef VAR_RANGES
-		logval("main_control:dest", ((P2 *)pptr(h))->dest);
-		logval("main_control:direction", ((P2 *)pptr(h))->direction);
+		logval("main_control:destination", ((P2 *)pptr(h))->destination);
 #endif
 #ifdef HAS_CODE
 		locinit2(h);
@@ -957,11 +955,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* cabin_door */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 9;
+		((P0 *)pptr(h))->_p = 10;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[9]=1;
+		reached0[10]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -12546,6 +12544,12 @@ iniglobals(int calling_pid)
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
+			directions[l_in] = 0;
+		}
+	}
+	{	int l_in;
+		for (l_in = 0; l_in < 3; l_in++)
+		{
 			now.floor_door_is_open[0].shaft[l_in] = 0;
 		}
 	}
@@ -15290,8 +15294,7 @@ c_locals(int pid, int tp)
 		break;
 	case 2:
 		printf("local vars proc %d (main_control):\n", pid);
-	printf("	byte   dest:	%d\n", ((P2 *)pptr(pid))->dest);
-	printf("	mtype  direction:	%d\n", ((P2 *)pptr(pid))->direction);
+	printf("	byte   destination:	%d\n", ((P2 *)pptr(pid))->destination);
 		break;
 	case 1:
 		/* none */
@@ -15460,7 +15463,7 @@ c_chandump(int from)
 	printf("\n");
 }
 
-Trans *t_id_lkup[71];
+Trans *t_id_lkup[72];
 
 
 #ifdef BFS_PAR

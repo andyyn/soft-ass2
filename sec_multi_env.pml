@@ -18,10 +18,10 @@
 // ltl h {<>(floor_request_made[N-1]) == true}
 
 // the number of floors
-#define N 4
+#define N 3
 
 // the number of elevators
-#define M 2
+#define M 3
 
 // IDs of req_button processes
 #define cabin_door_id _pid
@@ -31,6 +31,7 @@
 
 // type for direction of elevator
 mtype { down, up, none }; // i want this to be a variable
+mtype directions[M];
 
 // asynchronous channel to handle passenger requestsg
 chan request = [N] of { byte }; 
@@ -62,8 +63,9 @@ chan served[M] = [0] of { bool };
 // cabin door process
 active[M] proctype cabin_door() { 
 	do
-	:: update_cabin_door[cabin_door_id]?true -> floor_door_is_open[current_floor[cabin_door_id]].shaft[cabin_door_id] = true; cabin_door_is_open[cabin_door_id] = true; cabin_door_updated[cabin_door_id]!true;
-	:: update_cabin_door[cabin_door_id]?false -> cabin_door_is_open[cabin_door_id] = false; floor_door_is_open[current_floor[cabin_door_id]].shaft[cabin_door_id] = false; cabin_door_updated[cabin_door_id]!false;
+	:: printf("%d", current_floor[cabin_door_id]); 
+	:: update_cabin_door[cabin_door_id]?true -> floor_door_is_open[cabin_door_id].shaft[current_floor[cabin_door_id]] = true; cabin_door_is_open[cabin_door_id] = true; cabin_door_updated[cabin_door_id]!true;
+	:: update_cabin_door[cabin_door_id]?false -> cabin_door_is_open[cabin_door_id] = false; floor_door_is_open[cabin_door_id].shaft[current_floor[cabin_door_id]] = false; cabin_door_updated[cabin_door_id]!false;
 	od;
 }
 
@@ -90,31 +92,31 @@ active[M] proctype elevator_engine() {
 
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active[M] proctype main_control() {
-	byte dest;
-	mtype direction; //current direction of the elevator
+	byte destination;
+	current_floor[main_control_id] = 0;
 	do
-	:: go[main_control_id]?dest ->
+	:: go[main_control_id]?destination ->
 		update_cabin_door[main_control_id]!false; // The door will close no matter the destination upon receiving a request
 		cabin_door_updated[main_control_id]?false;
 		if
-		:: dest > current_floor[main_control_id] -> // Case where destination is above the current floor
-			direction = up; // The elevator will be moving upwards
+		:: destination > current_floor[main_control_id] -> // Case where destination is above the current floor
+			directions[main_control_id] = up; // The elevator will be moving upwards
 			move[main_control_id]!true;
 			floor_reached[main_control_id]?true; 
-			current_floor[main_control_id] = dest; // Update current floor
+			current_floor[main_control_id] = destination; // Update current floor
 			move[main_control_id]!false;
 			update_cabin_door[main_control_id]!true; 
 			cabin_door_updated[main_control_id]?true;
-		:: dest < current_floor[main_control_id] -> // Case where destination is below the current floor
-			direction = down; // The elevator will be moving downwards
+		:: destination < current_floor[main_control_id] -> // Case where destination is below the current floor
+			directions[main_control_id] = down; // The elevator will be moving downwards
 			move[main_control_id]!true;
 			floor_reached[main_control_id]?true;
-			current_floor[main_control_id] = dest; // Update current floor
+			current_floor[main_control_id] = destination; // Update current floor
 			move[main_control_id]!false;
 			update_cabin_door[main_control_id]!true;
 			cabin_door_updated[main_control_id]?true;
 		:: else -> // Case where destination is on the current floor
-			direction = none; // Elevator does not move
+			directions[main_control_id] = none; // Elevator does not move
 			update_cabin_door[main_control_id]!true;
 			cabin_door_updated[main_control_id]?true;
 		fi
@@ -123,7 +125,7 @@ active[M] proctype main_control() {
 		// assert(0 <= current_floor[main_control_id] && current_floor[main_control_id] < N);
 		// assert(0 <= dest && dest <N);
 
-		floor_request_made[dest] = false;
+		floor_request_made[destination] = false;
 		served[main_control_id]!true;
 	od;
 }

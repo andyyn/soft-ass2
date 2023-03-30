@@ -21,6 +21,7 @@
 
 // type for direction of elevator
 mtype { down, up, none }; // i want this to be a variable
+mtype direction;
 
 // asynchronous channel to handle passenger requestsg
 chan request = [N] of { byte };
@@ -64,7 +65,8 @@ active proctype elevator_engine() {
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active proctype main_control() {
 	byte dest;
-	mtype direction; //current direction of the elevator
+	// mtype direction; //current direction of the elevator
+	current_floor = 0;
 	do
 	:: go?dest ->
 		update_cabin_door!false; // The door will close no matter the destination upon recieving a request

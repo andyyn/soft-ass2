@@ -133,29 +133,29 @@ typedef struct S_F_MAP {
 } S_F_MAP;
 
 #define _nstates4	9	/* req_button */
-#define minseq4	63
-#define maxseq4	70
+#define minseq4	64
+#define maxseq4	71
 #define _endstate4	8
 
 #define _nstates3	9	/* req_handler */
-#define minseq3	55
-#define maxseq3	62
+#define minseq3	56
+#define maxseq3	63
 #define _endstate3	8
 
 #define _nstates2	33	/* main_control */
-#define minseq2	23
-#define maxseq2	54
+#define minseq2	24
+#define maxseq2	55
 #define _endstate2	32
 
 #define _nstates1	12	/* elevator_engine */
-#define minseq1	12
-#define maxseq1	22
+#define minseq1	13
+#define maxseq1	23
 #define _endstate1	11
 
-#define _nstates0	13	/* cabin_door */
+#define _nstates0	14	/* cabin_door */
 #define minseq0	0
-#define maxseq0	11
-#define _endstate0	12
+#define maxseq0	12
+#define _endstate0	13
 
 extern short src_ln4[];
 extern short src_ln3[];
@@ -169,8 +169,8 @@ extern S_F_MAP src_file1[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	51
-#define _T2	52
+#define _T5	52
+#define _T2	53
 #define WS		8 /* word size in bytes */
 #define SYNC	6
 #define ASYNC	1
@@ -220,10 +220,9 @@ typedef struct P2 { /* main_control */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
-	uchar dest;
-	uchar direction;
+	uchar destination;
 } P2;
-#define Air2	(sizeof(P2) - Offsetof(P2, direction) - 1*sizeof(uchar))
+#define Air2	(sizeof(P2) - Offsetof(P2, destination) - 1*sizeof(uchar))
 
 #define Pelevator_engine	((P1 *)_this)
 typedef struct P1 { /* elevator_engine */
@@ -479,6 +478,7 @@ typedef struct TRIX_v6 {
 
 #define HAS_TRACK	0
 /* hidden variable: */	uchar cabin_door_is_open[3];
+/* hidden variable: */	uchar directions[3];
 #define FORWARD_MOVES	"pan.m"
 #define BACKWARD_MOVES	"pan.b"
 #define TRANSITIONS	"pan.t"
@@ -489,9 +489,9 @@ typedef struct TRIX_v6 {
 #define _start5	0 /* np_ */
 #define _start4	5
 #define _start3	5
-#define _start2	29
+#define _start2	1
 #define _start1	8
-#define _start0	9
+#define _start0	10
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
@@ -984,7 +984,7 @@ void qsend(int, int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	53
+#define NTRANS	54
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);
