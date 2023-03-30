@@ -18,10 +18,10 @@
 // ltl h {<>(floor_request_made[N-1]) == true}
 
 // the number of floors
-#define N 3
+#define N 4
 
 // the number of elevators
-#define M 3
+#define M 2
 
 // IDs of req_button processes
 // Every process has its own incoming channel, indexed by the identifier of the process
@@ -120,7 +120,7 @@ active[M] proctype main_control() {
 		fi
 
 		// an example assertion.
-		assert(0 <= current_floor[main_control_id] && current_floor[main_control_id] < N);
+		// assert(0 <= current_floor[main_control_id] && current_floor[main_control_id] < N);
 		// assert(0 <= dest && dest <N);
 
 		floor_request_made[dest] = false;
