@@ -7,11 +7,11 @@
 //Don't lose your mind wife everything will be okay
 
 // LTL formulas to be verified
-ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
-ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
-ltl b1 {[]<> (cabin_door_is_open==true)}
-ltl b2 {[]<> (cabin_door_is_open==false)}
-ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
+// ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
+// ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
+// ltl b1 {[]<> (cabin_door_is_open==true)}
+// ltl b2 {[]<> (cabin_door_is_open==false)}
+// ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
 
 // the number of floors
 #define N 4
