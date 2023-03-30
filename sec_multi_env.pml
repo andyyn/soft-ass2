@@ -9,11 +9,11 @@
 
 // LTL formulas to be verified
 // When the request button of floor i is pressed, eventually, that request is processed
-// ltl e {[](request!i -> <>(floor_request_made[i] == true))}
+// ltl e {[](request!i -> <>(floor_request_made[reqid] == true))}
 // Each elevator eventually processes a request.
-// ltl f {<>(go[i]!dest)}
+// ltl f {<>(go[k]!dest)}
 // When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
-// ltl g {served[i]?dest -> current_floor[i] == dest}
+// ltl g {served[k]?dest -> current_floor[k] == dest}
 // Eventually a request is made at floor number N − 1.
 // ltl h {<>(floor_request_made[N-1]) == true}
 
@@ -24,7 +24,6 @@
 #define M 3
 
 // IDs of req_button processes
-// Every process has its own incoming channel, indexed by the identifier of the process
 #define cabin_door_id _pid
 #define elevator_engine_id _pid - M
 #define main_control_id _pid - 2*M
@@ -33,22 +32,23 @@
 // type for direction of elevator
 mtype { down, up, none }; // i want this to be a variable
 
-// asynchronous channel to handle passenger requests
+// asynchronous channel to handle passenger requestsg
 chan request = [N] of { byte }; 
 
 // status of requests per floor
 bool floor_request_made[N];
 
+
 // status of N floor doors of the elevator shaft
 typedef shafts {
     bool shaft[N];
 };
-//2d array containing the status of N floor doors of M elevator shafts
-shafts floor_door_is_open[M]; 
 
+//2d array containing the status of N floor doors of M elevator shafts
+shafts floor_door_is_open[M];
 // status and synchronous channels for elevator cabin and engine
 byte current_floor[M];
-bool cabin_door_is_open[M]; // check if elevator M's doors are open
+bool cabin_door_is_open[M];
 
 chan update_cabin_door[M] = [0] of { bool };
 chan cabin_door_updated[M] = [0] of { bool };
