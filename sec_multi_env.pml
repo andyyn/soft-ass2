@@ -8,11 +8,14 @@
 //Thank you schatje i will try my best but i think its already too late the damage is done theres nothing we can do the world is ending
 
 // LTL formulas to be verified
-// ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
-// ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
-// ltl b1 {[]<> (cabin_door_is_open==true)}
-// ltl b2 {[]<> (cabin_door_is_open==false)}
-// ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
+// When the request button of floor i is pressed, eventually, that request is processed
+// ltl e {[](request!i -> <>(floor_request_made[i] == true))}
+// Each elevator eventually processes a request.
+// ltl f {<>(go[i]!dest)}
+// When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
+// ltl g {served[i]?dest -> current_floor[i] == dest}
+// Eventually a request is made at floor number N − 1.
+// ltl h {<>(floor_request_made[N-1]) == true}
 
 // the number of floors
 #define N 3
@@ -21,26 +24,26 @@
 #define M 3
 
 // IDs of req_button processes
-#define reqid _pid-4*M
+// Every process has its own incoming channel, indexed by the identifier of the process
 #define cabin_door_id _pid
 #define elevator_engine_id _pid - M
 #define main_control_id _pid - 2*M
-#define req_handler_id _pid - 3*M
+#define reqid _pid - 3*M - 1
 
 // type for direction of elevator
 mtype { down, up, none }; // i want this to be a variable
 
-// asynchronous channel to handle passenger requestsg
+// asynchronous channel to handle passenger requests
 chan request = [N] of { byte }; 
 
 // status of requests per floor
 bool floor_request_made[N];
 
-// status of floor doors of the shaft of the single elevator
+// status of N floor doors of the elevator shaft
 typedef shafts {
     bool shaft[N];
 };
-//array containing M shafts
+//2d array containing the status of N floor doors of M elevator shafts
 shafts floor_door_is_open[M]; 
 
 // status and synchronous channels for elevator cabin and engine
@@ -142,8 +145,9 @@ active[M] proctype main_control() {
 // Current algo: assign the next destination in the queue to every elevator
 active proctype req_handler() {
 	byte dest;
+	int k = 0;
    	do
-    ::	request?dest -> go[req_handler_id]!dest; served[req_handler_id]?true;
+    ::	request?dest -> go[k]!dest; served[k]?true; k = (k+1) % M;
 	od;
 }
 
