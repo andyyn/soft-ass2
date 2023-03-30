@@ -1,0 +1,53 @@
+never a1 {    /* !([] ((! (floor_request_made[1])) || (<> ((current_floor==1))))) */
+T0_init:
+	do
+	:: (! ((! (floor_request_made[1]))) && ! (((current_floor==1)))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((current_floor==1)))) -> goto accept_S4
+	od;
+}
+never a2 {    /* !([] ((! (floor_request_made[2])) || (<> ((current_floor==2))))) */
+T0_init:
+	do
+	:: (! ((! (floor_request_made[2]))) && ! (((current_floor==2)))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((current_floor==2)))) -> goto accept_S4
+	od;
+}
+never b1 {    /* !([] (<> ((cabin_door_is_open==1)))) */
+T0_init:
+	do
+	:: (! (((cabin_door_is_open==1)))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((cabin_door_is_open==1)))) -> goto accept_S4
+	od;
+}
+never b2 {    /* !([] (<> ((cabin_door_is_open==0)))) */
+T0_init:
+	do
+	:: (! (((cabin_door_is_open==0)))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((cabin_door_is_open==0)))) -> goto accept_S4
+	od;
+}
+never c {    /* !((! ((cabin_door_is_open==1))) || ((floor_door_is_open[current_floor]==1))) */
+accept_init:
+T0_init:
+	do
+	:: atomic { (! (((! ((cabin_door_is_open==1))) || ((floor_door_is_open[current_floor]==1))))) -> assert(!(! (((! ((cabin_door_is_open==1))) || ((floor_door_is_open[current_floor]==1)))))) }
+	od;
+accept_all:
+	skip
+}
