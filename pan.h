@@ -102,12 +102,13 @@
 #ifndef NFAIR
 	#define NFAIR	2	/* must be >= 2 */
 #endif
+#define REM_VARS	1
+#define REM_REFS	2
 #define HAS_LTL	1
 #define HAS_CODE	1
 #if defined(RANDSTORE) && !defined(RANDSTOR)
 	#define RANDSTOR	RANDSTORE
 #endif
-#define MERGED	1
 #if !defined(HAS_LAST) && defined(BCS)
 	#define HAS_LAST	1 /* use it, but */
 	#ifndef STORE_LAST
@@ -139,20 +140,20 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates5	14	/* e */
-#define minseq5	72
-#define maxseq5	84
-#define _endstate5	13
+#define _nstates5	7	/* f3 */
+#define minseq5	76
+#define maxseq5	81
+#define _endstate5	6
 
 #define _nstates4	9	/* req_button */
-#define minseq4	64
-#define maxseq4	71
+#define minseq4	68
+#define maxseq4	75
 #define _endstate4	8
 
-#define _nstates3	9	/* req_handler */
+#define _nstates3	13	/* req_handler */
 #define minseq3	56
-#define maxseq3	63
-#define _endstate3	8
+#define maxseq3	67
+#define _endstate3	12
 
 #define _nstates2	33	/* main_control */
 #define minseq2	24
@@ -183,8 +184,8 @@ extern S_F_MAP src_file1[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	55
-#define _T2	56
+#define _T5	58
+#define _T2	59
 #define WS		8 /* word size in bytes */
 #define SYNC	6
 #define ASYNC	1
@@ -202,7 +203,7 @@ extern S_F_MAP src_file0[];
 struct shafts { /* user defined type */
 	uchar shaft[3];
 };
-typedef struct P5 { /* e */
+typedef struct P5 { /* f3 */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 4; /* proctype */
 	unsigned _p   : 7; /* state    */
@@ -231,6 +232,8 @@ typedef struct P3 { /* req_handler */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
+	uchar servedArr[3];
+	uchar goArr[3];
 	uchar dest;
 	int k;
 } P3;
@@ -511,9 +514,9 @@ typedef struct TRIX_v6 {
 #define _endstate6	2 /* np_ */
 
 #define _start6	0 /* np_ */
-#define _start5	5
+#define _start5	3
 #define _start4	5
-#define _start3	5
+#define _start3	9
 #define _start2	1
 #define _start1	8
 #define _start0	10
@@ -1009,7 +1012,7 @@ void qsend(int, int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	57
+#define NTRANS	60
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);

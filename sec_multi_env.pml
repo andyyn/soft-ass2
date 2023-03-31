@@ -9,12 +9,20 @@
 
 // How to poll a synchronous channel?
 // LTL formulas to be verified
+
 // When the request button of floor i is pressed, eventually, that request is processed
-// ltl e { [] ( request?[1] -> <> (floor_request_made[destination] = false ))};
+// ltl e1 { [] ( request?[0] -> <> (req_handler : servedArr[0]))};
+// ltl e2 { [] ( request?[1] -> <> (req_handler : servedArr[1]))};
+// ltl e3 { [] ( request?[2] -> <> (req_handler : servedArr[2]))};
+
 // Each elevator eventually processes a request.
-// ltl f {<>(go[k]!dest)}
+// ltl f1 {<> (req_handler : goArr[0] == true)};
+// ltl f2 {<> (req_handler : goArr[1] == true)};
+// ltl f3 {<> (req_handler : goArr[2] == true)};
+
 // When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
-// ltl g {served[k]?dest -> current_floor[k] == dest}
+// ltl g1 {served[k]?dest -> current_floor[k] == dest}
+
 // Eventually a request is made at floor number N − 1.
 // ltl h {<>(floor_request_made[1]) == true}
 
@@ -150,10 +158,14 @@ active[M] proctype main_control() {
 // Current algo: assign the next destination in the queue to every elevator
 active proctype req_handler() {
 	byte dest;
+	// to keep track whether elevator has served a request
 	bool servedArr[M];
+	// to keep track whether elevator processes a request
+	bool goArr[M];
 	int k = 0;
    	do
-    ::	request?dest -> servedArr[k] = false; go[k]!dest; served[k]?true; servedArr[k] = true; k = (k+1) % M;
+	:: printf("%d", k);
+    ::	request?dest -> servedArr[k] = false; goArr[k]=false; go[k]!dest; goArr[k]=true; served[k]?true; servedArr[k] = true; k = (k+1) % M;
 	od;
 }
 
