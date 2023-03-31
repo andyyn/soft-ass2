@@ -15,8 +15,6 @@ putpeg(int n, int m)
 	printf("%s:%d\n",
 		T_SRC[n].fl, T_SRC[n].ln);
 }
-#else
-#define tr_2_src(m,f,l)
 #endif
 
 void
@@ -26,209 +24,126 @@ settable(void)
 
 	trans = (Trans ***) emalloc(7*sizeof(Trans **));
 
-	/* proctype 5: f3 */
+	/* proctype 5: f1 */
 
 	trans[5] = (Trans **) emalloc(7*sizeof(Trans *));
 
-	trans[5][4]	= settr(79,0,3,1,0,".(goto)", 0, 2, 0);
-	T = trans[5][3] = settr(78,0,0,0,0,"DO", 0, 2, 0);
-		/* _spin_nvr.tmp:3 */
-	    T->nxt	= settr(78,0,1,0,0,"DO", 0, 2, 0);
-		/* _spin_nvr.tmp:3 */
-	trans[5][1]	= settr(76,0,3,3,0,"(!((req_handler.goArr==1)))", 1, 2, 0);
-		tr_2_src(3, "_spin_nvr.tmp", 4);
-	trans[5][2]	= settr(77,0,3,1,0,"goto T0_init", 0, 2, 0);
-	trans[5][5]	= settr(80,0,6,1,0,"break", 0, 2, 0);
-	trans[5][6]	= settr(81,0,0,4,4,"-end-", 0, 3500, 0);
-		tr_2_src(4, "_spin_nvr.tmp", 6);
+	trans[5][4]	= settr(75,0,3,1,0,".(goto)", 0, 2, 0);
+	T = trans[5][3] = settr(74,0,0,0,0,"DO", 0, 2, 0);
+	    T->nxt	= settr(74,0,1,0,0,"DO", 0, 2, 0);
+	trans[5][1]	= settr(72,0,3,3,0,"(!((servedArr[1]==1)))", 1, 2, 0);
+	trans[5][2]	= settr(73,0,3,1,0,"goto T0_init", 0, 2, 0);
+	trans[5][5]	= settr(76,0,6,1,0,"break", 0, 2, 0);
+	trans[5][6]	= settr(77,0,0,4,4,"-end-", 0, 3500, 0);
 
 	/* proctype 4: req_button */
 
 	trans[4] = (Trans **) emalloc(9*sizeof(Trans *));
 
-	trans[4][6]	= settr(73,0,5,1,0,".(goto)", 0, 2, 0);
-	T = trans[4][5] = settr(72,0,0,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:171 */
-	    T->nxt	= settr(72,0,1,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:171 */
-	trans[4][1]	= settr(68,0,4,5,0,"(!(floor_request_made[((_pid-(3*3))-1)]))", 1, 2, 0);
-		tr_2_src(5, "sec_multi_env.pml", 172);
-	T = trans[ 4][4] = settr(71,2,0,0,0,"ATOMIC", 1, 2, 0);
-		/* sec_multi_env.pml:173 */
-	T->nxt	= settr(71,2,2,0,0,"ATOMIC", 1, 3, 0);
-		/* sec_multi_env.pml:173 */
-	trans[4][2]	= settr(69,2,3,6,6,"request!((_pid-(3*3))-1)", 1, 3, 0);
-		tr_2_src(6, "sec_multi_env.pml", 174);
-	trans[4][3]	= settr(70,0,5,7,7,"floor_request_made[((_pid-(3*3))-1)] = 1", 1, 3, 0);
-		tr_2_src(7, "sec_multi_env.pml", 175);
-	trans[4][7]	= settr(74,0,8,1,0,"break", 0, 2, 0);
-	trans[4][8]	= settr(75,0,0,8,8,"-end-", 0, 3500, 0);
-		tr_2_src(8, "sec_multi_env.pml", 178);
+	trans[4][6]	= settr(69,0,5,1,0,".(goto)", 0, 2, 0);
+	T = trans[4][5] = settr(68,0,0,0,0,"DO", 0, 2, 0);
+	    T->nxt	= settr(68,0,1,0,0,"DO", 0, 2, 0);
+	trans[4][1]	= settr(64,0,4,5,0,"(!(floor_request_made[((_pid-(3*3))-1)]))", 1, 2, 0);
+	T = trans[ 4][4] = settr(67,2,0,0,0,"ATOMIC", 1, 2, 0);
+	T->nxt	= settr(67,2,2,0,0,"ATOMIC", 1, 3, 0);
+	trans[4][2]	= settr(65,2,3,6,6,"request!((_pid-(3*3))-1)", 1, 3, 0);
+	trans[4][3]	= settr(66,0,5,7,7,"floor_request_made[((_pid-(3*3))-1)] = 1", 1, 3, 0);
+	trans[4][7]	= settr(70,0,8,1,0,"break", 0, 2, 0);
+	trans[4][8]	= settr(71,0,0,8,8,"-end-", 0, 3500, 0);
 
 	/* proctype 3: req_handler */
 
-	trans[3] = (Trans **) emalloc(13*sizeof(Trans *));
+	trans[3] = (Trans **) emalloc(10*sizeof(Trans *));
 
-	trans[3][10]	= settr(65,0,9,1,0,".(goto)", 0, 2, 0);
-	T = trans[3][9] = settr(64,0,0,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:162 */
-	    T->nxt	= settr(64,0,1,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:162 */
-	trans[3][1]	= settr(56,0,2,9,9,"request?dest", 1, 503, 0);
-		tr_2_src(9, "sec_multi_env.pml", 163);
-	trans[3][2]	= settr(57,0,3,10,10,"servedArr[k] = 0", 0, 2, 0);
-		tr_2_src(10, "sec_multi_env.pml", 163);
-	trans[3][3]	= settr(58,0,4,11,11,"goArr[k] = 0", 0, 2, 0);
-		tr_2_src(11, "sec_multi_env.pml", 163);
-	trans[3][4]	= settr(59,0,5,12,12,"go[k]!dest", 1, 8, 0);
-		tr_2_src(12, "sec_multi_env.pml", 163);
-	trans[3][5]	= settr(60,0,6,13,13,"goArr[k] = 1", 0, 2, 0);
-		tr_2_src(13, "sec_multi_env.pml", 163);
-	trans[3][6]	= settr(61,0,7,14,14,"served[k]?1", 1, 509, 0);
-		tr_2_src(14, "sec_multi_env.pml", 163);
-	trans[3][7]	= settr(62,0,8,15,15,"servedArr[k] = 1", 0, 2, 0);
-		tr_2_src(15, "sec_multi_env.pml", 163);
-	trans[3][8]	= settr(63,0,9,16,16,"k = ((k+1)%3)", 0, 2, 0);
-		tr_2_src(16, "sec_multi_env.pml", 163);
-	trans[3][11]	= settr(66,0,12,1,0,"break", 0, 2, 0);
-	trans[3][12]	= settr(67,0,0,17,17,"-end-", 0, 3500, 0);
-		tr_2_src(17, "sec_multi_env.pml", 165);
+	trans[3][7]	= settr(61,0,6,1,0,".(goto)", 0, 2, 0);
+	T = trans[3][6] = settr(60,0,0,0,0,"DO", 0, 2, 0);
+	    T->nxt	= settr(60,0,1,0,0,"DO", 0, 2, 0);
+	trans[3][1]	= settr(55,0,2,9,9,"request?dest", 1, 503, 0);
+	trans[3][2]	= settr(56,0,3,10,10,"go[k]!dest", 1, 8, 0);
+	trans[3][3]	= settr(57,0,4,11,11,"served[k]?1", 1, 509, 0);
+	trans[3][4]	= settr(58,0,5,12,12,"servedArr[k] = 1", 1, 2, 0);
+	trans[3][5]	= settr(59,0,6,13,13,"k = ((k+1)%3)", 0, 2, 0);
+	trans[3][8]	= settr(62,0,9,1,0,"break", 0, 2, 0);
+	trans[3][9]	= settr(63,0,0,14,14,"-end-", 0, 3500, 0);
 
 	/* proctype 2: main_control */
 
 	trans[2] = (Trans **) emalloc(33*sizeof(Trans *));
 
-	trans[2][1]	= settr(24,0,29,18,18,"current_floor[(_pid-(2*3))] = 0", 1, 2, 0);
-		tr_2_src(18, "sec_multi_env.pml", 103);
-	trans[2][30]	= settr(53,0,29,1,0,".(goto)", 0, 2, 0);
-	T = trans[2][29] = settr(52,0,0,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:104 */
-	    T->nxt	= settr(52,0,2,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:104 */
-	trans[2][2]	= settr(25,0,3,19,19,"go[(_pid-(2*3))]?destination", 1, 508, 0);
-		tr_2_src(19, "sec_multi_env.pml", 105);
-	trans[2][3]	= settr(26,0,4,20,20,"update_cabin_door[(_pid-(2*3))]!0", 1, 4, 0);
-		tr_2_src(20, "sec_multi_env.pml", 106);
-	trans[2][4]	= settr(27,0,25,21,21,"cabin_door_updated[(_pid-(2*3))]?0", 1, 505, 0);
-		tr_2_src(21, "sec_multi_env.pml", 107);
-	T = trans[2][25] = settr(48,0,0,0,0,"IF", 0, 2, 0);
-		/* sec_multi_env.pml:108 */
-	T = T->nxt	= settr(48,0,5,0,0,"IF", 0, 2, 0);
-		/* sec_multi_env.pml:108 */
-	T = T->nxt	= settr(48,0,13,0,0,"IF", 0, 2, 0);
-		/* sec_multi_env.pml:108 */
-	    T->nxt	= settr(48,0,21,0,0,"IF", 0, 2, 0);
-		/* sec_multi_env.pml:108 */
-	trans[2][5]	= settr(28,0,6,22,0,"((destination>current_floor[(_pid-(2*3))]))", 1, 2, 0);
-		tr_2_src(22, "sec_multi_env.pml", 109);
-	trans[2][6]	= settr(29,0,7,23,23,"directions[(_pid-(2*3))] = up", 1, 2, 0);
-		tr_2_src(23, "sec_multi_env.pml", 110);
-	trans[2][7]	= settr(30,0,8,24,24,"move[(_pid-(2*3))]!1", 1, 6, 0);
-		tr_2_src(24, "sec_multi_env.pml", 111);
-	trans[2][8]	= settr(31,0,9,25,25,"floor_reached[(_pid-(2*3))]?1", 1, 507, 0);
-		tr_2_src(25, "sec_multi_env.pml", 112);
-	trans[2][9]	= settr(32,0,10,26,26,"current_floor[(_pid-(2*3))] = destination", 1, 2, 0);
-		tr_2_src(26, "sec_multi_env.pml", 113);
-	trans[2][10]	= settr(33,0,11,27,27,"move[(_pid-(2*3))]!0", 1, 6, 0);
-		tr_2_src(27, "sec_multi_env.pml", 114);
-	trans[2][11]	= settr(34,0,12,28,28,"update_cabin_door[(_pid-(2*3))]!1", 1, 4, 0);
-		tr_2_src(28, "sec_multi_env.pml", 115);
-	trans[2][12]	= settr(35,0,27,29,29,"cabin_door_updated[(_pid-(2*3))]?1", 1, 505, 0);
-		tr_2_src(29, "sec_multi_env.pml", 116);
-	trans[2][26]	= settr(49,0,27,1,0,".(goto)", 0, 2, 0);
-	trans[2][13]	= settr(36,0,14,30,0,"((destination<current_floor[(_pid-(2*3))]))", 1, 2, 0);
-		tr_2_src(30, "sec_multi_env.pml", 117);
-	trans[2][14]	= settr(37,0,15,31,31,"directions[(_pid-(2*3))] = down", 1, 2, 0);
-		tr_2_src(31, "sec_multi_env.pml", 118);
-	trans[2][15]	= settr(38,0,16,32,32,"move[(_pid-(2*3))]!1", 1, 6, 0);
-		tr_2_src(32, "sec_multi_env.pml", 119);
-	trans[2][16]	= settr(39,0,17,33,33,"floor_reached[(_pid-(2*3))]?1", 1, 507, 0);
-		tr_2_src(33, "sec_multi_env.pml", 120);
-	trans[2][17]	= settr(40,0,18,34,34,"current_floor[(_pid-(2*3))] = destination", 1, 2, 0);
-		tr_2_src(34, "sec_multi_env.pml", 121);
-	trans[2][18]	= settr(41,0,19,35,35,"move[(_pid-(2*3))]!0", 1, 6, 0);
-		tr_2_src(35, "sec_multi_env.pml", 122);
-	trans[2][19]	= settr(42,0,20,36,36,"update_cabin_door[(_pid-(2*3))]!1", 1, 4, 0);
-		tr_2_src(36, "sec_multi_env.pml", 123);
-	trans[2][20]	= settr(43,0,27,37,37,"cabin_door_updated[(_pid-(2*3))]?1", 1, 505, 0);
-		tr_2_src(37, "sec_multi_env.pml", 124);
-	trans[2][21]	= settr(44,0,22,2,0,"else", 0, 2, 0);
-	trans[2][22]	= settr(45,0,23,38,38,"directions[(_pid-(2*3))] = none", 1, 2, 0);
-		tr_2_src(38, "sec_multi_env.pml", 126);
-	trans[2][23]	= settr(46,0,24,39,39,"update_cabin_door[(_pid-(2*3))]!1", 1, 4, 0);
-		tr_2_src(39, "sec_multi_env.pml", 127);
-	trans[2][24]	= settr(47,0,27,40,40,"cabin_door_updated[(_pid-(2*3))]?1", 1, 505, 0);
-		tr_2_src(40, "sec_multi_env.pml", 128);
-	trans[2][27]	= settr(50,0,28,41,41,"floor_request_made[destination] = 0", 1, 2, 0);
-		tr_2_src(41, "sec_multi_env.pml", 135);
-	trans[2][28]	= settr(51,0,29,42,42,"served[(_pid-(2*3))]!1", 1, 9, 0);
-		tr_2_src(42, "sec_multi_env.pml", 136);
-	trans[2][31]	= settr(54,0,32,1,0,"break", 0, 2, 0);
-	trans[2][32]	= settr(55,0,0,43,43,"-end-", 0, 3500, 0);
-		tr_2_src(43, "sec_multi_env.pml", 138);
+	trans[2][1]	= settr(23,0,29,15,15,"current_floor[(_pid-(2*3))] = 0", 1, 2, 0);
+	trans[2][30]	= settr(52,0,29,1,0,".(goto)", 0, 2, 0);
+	T = trans[2][29] = settr(51,0,0,0,0,"DO", 0, 2, 0);
+	    T->nxt	= settr(51,0,2,0,0,"DO", 0, 2, 0);
+	trans[2][2]	= settr(24,0,3,16,16,"go[(_pid-(2*3))]?destination", 1, 508, 0);
+	trans[2][3]	= settr(25,0,4,17,17,"update_cabin_door[(_pid-(2*3))]!0", 1, 4, 0);
+	trans[2][4]	= settr(26,0,25,18,18,"cabin_door_updated[(_pid-(2*3))]?0", 1, 505, 0);
+	T = trans[2][25] = settr(47,0,0,0,0,"IF", 0, 2, 0);
+	T = T->nxt	= settr(47,0,5,0,0,"IF", 0, 2, 0);
+	T = T->nxt	= settr(47,0,13,0,0,"IF", 0, 2, 0);
+	    T->nxt	= settr(47,0,21,0,0,"IF", 0, 2, 0);
+	trans[2][5]	= settr(27,0,6,19,0,"((destination>current_floor[(_pid-(2*3))]))", 1, 2, 0);
+	trans[2][6]	= settr(28,0,7,20,20,"directions[(_pid-(2*3))] = up", 1, 2, 0);
+	trans[2][7]	= settr(29,0,8,21,21,"move[(_pid-(2*3))]!1", 1, 6, 0);
+	trans[2][8]	= settr(30,0,9,22,22,"floor_reached[(_pid-(2*3))]?1", 1, 507, 0);
+	trans[2][9]	= settr(31,0,10,23,23,"current_floor[(_pid-(2*3))] = destination", 1, 2, 0);
+	trans[2][10]	= settr(32,0,11,24,24,"move[(_pid-(2*3))]!0", 1, 6, 0);
+	trans[2][11]	= settr(33,0,12,25,25,"update_cabin_door[(_pid-(2*3))]!1", 1, 4, 0);
+	trans[2][12]	= settr(34,0,27,26,26,"cabin_door_updated[(_pid-(2*3))]?1", 1, 505, 0);
+	trans[2][26]	= settr(48,0,27,1,0,".(goto)", 0, 2, 0);
+	trans[2][13]	= settr(35,0,14,27,0,"((destination<current_floor[(_pid-(2*3))]))", 1, 2, 0);
+	trans[2][14]	= settr(36,0,15,28,28,"directions[(_pid-(2*3))] = down", 1, 2, 0);
+	trans[2][15]	= settr(37,0,16,29,29,"move[(_pid-(2*3))]!1", 1, 6, 0);
+	trans[2][16]	= settr(38,0,17,30,30,"floor_reached[(_pid-(2*3))]?1", 1, 507, 0);
+	trans[2][17]	= settr(39,0,18,31,31,"current_floor[(_pid-(2*3))] = destination", 1, 2, 0);
+	trans[2][18]	= settr(40,0,19,32,32,"move[(_pid-(2*3))]!0", 1, 6, 0);
+	trans[2][19]	= settr(41,0,20,33,33,"update_cabin_door[(_pid-(2*3))]!1", 1, 4, 0);
+	trans[2][20]	= settr(42,0,27,34,34,"cabin_door_updated[(_pid-(2*3))]?1", 1, 505, 0);
+	trans[2][21]	= settr(43,0,22,2,0,"else", 0, 2, 0);
+	trans[2][22]	= settr(44,0,23,35,35,"directions[(_pid-(2*3))] = none", 1, 2, 0);
+	trans[2][23]	= settr(45,0,24,36,36,"update_cabin_door[(_pid-(2*3))]!1", 1, 4, 0);
+	trans[2][24]	= settr(46,0,27,37,37,"cabin_door_updated[(_pid-(2*3))]?1", 1, 505, 0);
+	trans[2][27]	= settr(49,0,28,38,38,"floor_request_made[destination] = 0", 1, 2, 0);
+	trans[2][28]	= settr(50,0,29,39,39,"served[(_pid-(2*3))]!1", 1, 9, 0);
+	trans[2][31]	= settr(53,0,32,1,0,"break", 0, 2, 0);
+	trans[2][32]	= settr(54,0,0,40,40,"-end-", 0, 3500, 0);
 
 	/* proctype 1: elevator_engine */
 
 	trans[1] = (Trans **) emalloc(12*sizeof(Trans *));
 
-	trans[1][9]	= settr(21,0,8,1,0,".(goto)", 0, 2, 0);
-	T = trans[1][8] = settr(20,0,0,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:81 */
-	    T->nxt	= settr(20,0,1,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:81 */
-	trans[1][1]	= settr(13,0,5,44,44,"move[(_pid-3)]?1", 1, 506, 0);
-		tr_2_src(44, "sec_multi_env.pml", 82);
-	trans[1][6]	= settr(18,0,5,1,0,".(goto)", 0, 2, 0);
-	T = trans[1][5] = settr(17,0,0,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:83 */
-	T = T->nxt	= settr(17,0,2,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:83 */
-	    T->nxt	= settr(17,0,4,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:83 */
-	trans[1][2]	= settr(14,0,8,45,45,"move[(_pid-3)]?0", 1, 506, 0);
-		tr_2_src(45, "sec_multi_env.pml", 84);
-	trans[1][3]	= settr(15,0,8,1,0,"goto :b2", 0, 2, 0);
-	trans[1][4]	= settr(16,0,5,46,46,"floor_reached[(_pid-3)]!1", 1, 7, 0);
-		tr_2_src(46, "sec_multi_env.pml", 85);
-	trans[1][7]	= settr(19,0,8,1,0,"break", 0, 2, 0);
-	trans[1][10]	= settr(22,0,11,1,0,"break", 0, 2, 0);
-	trans[1][11]	= settr(23,0,0,47,47,"-end-", 0, 3500, 0);
-		tr_2_src(47, "sec_multi_env.pml", 88);
+	trans[1][9]	= settr(20,0,8,1,0,".(goto)", 0, 2, 0);
+	T = trans[1][8] = settr(19,0,0,0,0,"DO", 0, 2, 0);
+	    T->nxt	= settr(19,0,1,0,0,"DO", 0, 2, 0);
+	trans[1][1]	= settr(12,0,5,41,41,"move[(_pid-3)]?1", 1, 506, 0);
+	trans[1][6]	= settr(17,0,5,1,0,".(goto)", 0, 2, 0);
+	T = trans[1][5] = settr(16,0,0,0,0,"DO", 0, 2, 0);
+	T = T->nxt	= settr(16,0,2,0,0,"DO", 0, 2, 0);
+	    T->nxt	= settr(16,0,4,0,0,"DO", 0, 2, 0);
+	trans[1][2]	= settr(13,0,8,42,42,"move[(_pid-3)]?0", 1, 506, 0);
+	trans[1][3]	= settr(14,0,8,1,0,"goto :b2", 0, 2, 0);
+	trans[1][4]	= settr(15,0,5,43,43,"floor_reached[(_pid-3)]!1", 1, 7, 0);
+	trans[1][7]	= settr(18,0,8,1,0,"break", 0, 2, 0);
+	trans[1][10]	= settr(21,0,11,1,0,"break", 0, 2, 0);
+	trans[1][11]	= settr(22,0,0,44,44,"-end-", 0, 3500, 0);
 
 	/* proctype 0: cabin_door */
 
-	trans[0] = (Trans **) emalloc(14*sizeof(Trans *));
+	trans[0] = (Trans **) emalloc(13*sizeof(Trans *));
 
-	trans[0][11]	= settr(10,0,10,1,0,".(goto)", 0, 2, 0);
-	T = trans[0][10] = settr(9,0,0,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:72 */
-	T = T->nxt	= settr(9,0,1,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:72 */
-	T = T->nxt	= settr(9,0,2,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:72 */
-	    T->nxt	= settr(9,0,6,0,0,"DO", 0, 2, 0);
-		/* sec_multi_env.pml:72 */
-	trans[0][1]	= settr(0,0,10,48,0,"printf('%d',current_floor[_pid])", 1, 2, 0);
-		tr_2_src(48, "sec_multi_env.pml", 73);
-	trans[0][2]	= settr(1,0,3,49,49,"update_cabin_door[_pid]?1", 1, 504, 0);
-		tr_2_src(49, "sec_multi_env.pml", 74);
-	trans[0][3]	= settr(2,0,4,50,50,"floor_door_is_open[_pid].shaft[current_floor[_pid]] = 1", 1, 2, 0);
-		tr_2_src(50, "sec_multi_env.pml", 74);
-	trans[0][4]	= settr(3,0,5,51,51,"cabin_door_is_open[_pid] = 1", 1, 2, 0);
-		tr_2_src(51, "sec_multi_env.pml", 74);
-	trans[0][5]	= settr(4,0,10,52,52,"cabin_door_updated[_pid]!1", 1, 5, 0);
-		tr_2_src(52, "sec_multi_env.pml", 74);
-	trans[0][6]	= settr(5,0,7,53,53,"update_cabin_door[_pid]?0", 1, 504, 0);
-		tr_2_src(53, "sec_multi_env.pml", 75);
-	trans[0][7]	= settr(6,0,8,54,54,"cabin_door_is_open[_pid] = 0", 1, 2, 0);
-		tr_2_src(54, "sec_multi_env.pml", 75);
-	trans[0][8]	= settr(7,0,9,55,55,"floor_door_is_open[_pid].shaft[current_floor[_pid]] = 0", 1, 2, 0);
-		tr_2_src(55, "sec_multi_env.pml", 75);
-	trans[0][9]	= settr(8,0,10,56,56,"cabin_door_updated[_pid]!0", 1, 5, 0);
-		tr_2_src(56, "sec_multi_env.pml", 75);
-	trans[0][12]	= settr(11,0,13,1,0,"break", 0, 2, 0);
-	trans[0][13]	= settr(12,0,0,57,57,"-end-", 0, 3500, 0);
-		tr_2_src(57, "sec_multi_env.pml", 77);
+	trans[0][10]	= settr(9,0,9,1,0,".(goto)", 0, 2, 0);
+	T = trans[0][9] = settr(8,0,0,0,0,"DO", 0, 2, 0);
+	T = T->nxt	= settr(8,0,1,0,0,"DO", 0, 2, 0);
+	    T->nxt	= settr(8,0,5,0,0,"DO", 0, 2, 0);
+	trans[0][1]	= settr(0,0,2,45,45,"update_cabin_door[_pid]?1", 1, 504, 0);
+	trans[0][2]	= settr(1,0,3,46,46,"floor_door_is_open[_pid].shaft[current_floor[_pid]] = 1", 1, 2, 0);
+	trans[0][3]	= settr(2,0,4,47,47,"cabin_door_is_open[_pid] = 1", 1, 2, 0);
+	trans[0][4]	= settr(3,0,9,48,48,"cabin_door_updated[_pid]!1", 1, 5, 0);
+	trans[0][5]	= settr(4,0,6,49,49,"update_cabin_door[_pid]?0", 1, 504, 0);
+	trans[0][6]	= settr(5,0,7,50,50,"cabin_door_is_open[_pid] = 0", 1, 2, 0);
+	trans[0][7]	= settr(6,0,8,51,51,"floor_door_is_open[_pid].shaft[current_floor[_pid]] = 0", 1, 2, 0);
+	trans[0][8]	= settr(7,0,9,52,52,"cabin_door_updated[_pid]!0", 1, 5, 0);
+	trans[0][11]	= settr(10,0,12,1,0,"break", 0, 2, 0);
+	trans[0][12]	= settr(11,0,0,53,53,"-end-", 0, 3500, 0);
 	/* np_ demon: */
 	trans[_NP_] = (Trans **) emalloc(3*sizeof(Trans *));
 	T = trans[_NP_][0] = settr(9997,0,1,_T5,0,"(np_)", 1,2,0);

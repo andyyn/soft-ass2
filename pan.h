@@ -102,13 +102,12 @@
 #ifndef NFAIR
 	#define NFAIR	2	/* must be >= 2 */
 #endif
-#define REM_VARS	1
-#define REM_REFS	2
 #define HAS_LTL	1
 #define HAS_CODE	1
 #if defined(RANDSTORE) && !defined(RANDSTOR)
 	#define RANDSTOR	RANDSTORE
 #endif
+#define MERGED	1
 #if !defined(HAS_LAST) && defined(BCS)
 	#define HAS_LAST	1 /* use it, but */
 	#ifndef STORE_LAST
@@ -140,35 +139,35 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates5	7	/* f3 */
-#define minseq5	76
-#define maxseq5	81
+#define _nstates5	7	/* f1 */
+#define minseq5	72
+#define maxseq5	77
 #define _endstate5	6
 
 #define _nstates4	9	/* req_button */
-#define minseq4	68
-#define maxseq4	75
+#define minseq4	64
+#define maxseq4	71
 #define _endstate4	8
 
-#define _nstates3	13	/* req_handler */
-#define minseq3	56
-#define maxseq3	67
-#define _endstate3	12
+#define _nstates3	10	/* req_handler */
+#define minseq3	55
+#define maxseq3	63
+#define _endstate3	9
 
 #define _nstates2	33	/* main_control */
-#define minseq2	24
-#define maxseq2	55
+#define minseq2	23
+#define maxseq2	54
 #define _endstate2	32
 
 #define _nstates1	12	/* elevator_engine */
-#define minseq1	13
-#define maxseq1	23
+#define minseq1	12
+#define maxseq1	22
 #define _endstate1	11
 
-#define _nstates0	14	/* cabin_door */
+#define _nstates0	13	/* cabin_door */
 #define minseq0	0
-#define maxseq0	12
-#define _endstate0	13
+#define maxseq0	11
+#define _endstate0	12
 
 extern short src_ln5[];
 extern short src_ln4[];
@@ -184,8 +183,8 @@ extern S_F_MAP src_file1[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	58
-#define _T2	59
+#define _T5	54
+#define _T2	55
 #define WS		8 /* word size in bytes */
 #define SYNC	6
 #define ASYNC	1
@@ -203,7 +202,7 @@ extern S_F_MAP src_file0[];
 struct shafts { /* user defined type */
 	uchar shaft[3];
 };
-typedef struct P5 { /* f3 */
+typedef struct P5 { /* f1 */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 4; /* proctype */
 	unsigned _p   : 7; /* state    */
@@ -232,8 +231,6 @@ typedef struct P3 { /* req_handler */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
-	uchar servedArr[3];
-	uchar goArr[3];
 	uchar dest;
 	int k;
 } P3;
@@ -473,6 +470,7 @@ typedef struct State {
 		unsigned short _event;
 	#endif
 #endif
+	uchar servedArr[3];
 	uchar floor_request_made[3];
 	uchar current_floor[3];
 	uchar request;
@@ -504,7 +502,9 @@ typedef struct TRIX_v6 {
 #endif
 
 #define HAS_TRACK	0
+/* hidden variable: */	uchar requestProcessed[3];
 /* hidden variable: */	uchar cabin_door_is_open[3];
+/* hidden variable: */	uchar goArr[3];
 /* hidden variable: */	uchar directions[3];
 #define FORWARD_MOVES	"pan.m"
 #define BACKWARD_MOVES	"pan.b"
@@ -516,10 +516,10 @@ typedef struct TRIX_v6 {
 #define _start6	0 /* np_ */
 #define _start5	3
 #define _start4	5
-#define _start3	9
+#define _start3	6
 #define _start2	1
 #define _start1	8
-#define _start0	10
+#define _start0	9
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
@@ -1012,7 +1012,7 @@ void qsend(int, int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	60
+#define NTRANS	56
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);

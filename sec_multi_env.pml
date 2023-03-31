@@ -7,25 +7,6 @@
 //Don't lose your mind wife everything will be okay
 //Thank you schatje i will try my best but i think its already too late the damage is done theres nothing we can do the world is ending
 
-// How to poll a synchronous channel?
-// LTL formulas to be verified
-
-// When the request button of floor i is pressed, eventually, that request is processed
-// ltl e1 { [] ( request?[0] -> <> (req_handler : servedArr[0]))};
-// ltl e2 { [] ( request?[1] -> <> (req_handler : servedArr[1]))};
-// ltl e3 { [] ( request?[2] -> <> (req_handler : servedArr[2]))};
-
-// Each elevator eventually processes a request.
-// ltl f1 {<> (req_handler : goArr[0] == true)};
-// ltl f2 {<> (req_handler : goArr[1] == true)};
-// ltl f3 {<> (req_handler : goArr[2] == true)};
-
-// When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
-// ltl g1 {served[k]?dest -> current_floor[k] == dest}
-
-// Eventually a request is made at floor number N − 1.
-// ltl h {<>(floor_request_made[1]) == true}
-
 // the number of floors
 #define N 3
 
@@ -33,6 +14,11 @@
 
 // the number of elevators
 #define M 3
+
+bool servedArr[M];
+// to keep track whether elevator processes a request
+byte goArr[M];
+bool requestProcessed[N];
 
 // IDs of req_button processes
 #define cabin_door_id _pid
@@ -71,10 +57,30 @@ chan floor_reached[M] = [0] of { bool }; // i think this is just a flag to send 
 chan go[M] = [0] of { byte };
 chan served[M] = [0] of { bool };
 
+// How to poll a synchronous channel?
+// LTL formulas to be verified
+
+// When the request button of floor i is pressed, eventually, that request is processed
+// ltl e1 { [] ( request?[0] -> <> (requestProcessed[0] == true))};
+// ltl e2 { [] ( request?[0] -> <> (req_handler : requestProcessed[0] == true))};
+// ltl e3 { [] ( request?[2] -> <> (req_handler : servedArr[2]))};
+
+// Each elevator eventually processes a request.
+ltl f1 {<> (servedArr[0] == true)};
+ltl f2 {<> (servedArr[1] == true)};
+ltl f3 {<> (servedArr[2] == true)};
+
+// When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
+// ltl e1 { [] (servedArr[0] -> current_floor[0] = ))};
+
+// Eventually a request is made at floor number N − 1.
+// ltl h {<>(floor_request_made[1]) == true}
+
+
 // cabin door process
 active[M] proctype cabin_door() { 
 	do
-	:: printf("%d", current_floor[cabin_door_id]); 
+	// :: printf("%d", current_floor[cabin_door_id]); 
 	:: update_cabin_door[cabin_door_id]?true -> floor_door_is_open[cabin_door_id].shaft[current_floor[cabin_door_id]] = true; cabin_door_is_open[cabin_door_id] = true; cabin_door_updated[cabin_door_id]!true;
 	:: update_cabin_door[cabin_door_id]?false -> cabin_door_is_open[cabin_door_id] = false; floor_door_is_open[cabin_door_id].shaft[current_floor[cabin_door_id]] = false; cabin_door_updated[cabin_door_id]!false;
 	od;
@@ -159,13 +165,10 @@ active[M] proctype main_control() {
 active proctype req_handler() {
 	byte dest;
 	// to keep track whether elevator has served a request
-	bool servedArr[M];
-	// to keep track whether elevator processes a request
-	bool goArr[M];
 	int k = 0;
    	do
-	:: printf("%d", k);
-    ::	request?dest -> servedArr[k] = false; goArr[k]=false; go[k]!dest; goArr[k]=true; served[k]?true; servedArr[k] = true; k = (k+1) % M;
+	// :: printf("%d", k);
+    ::	request?dest -> go[k]!dest; served[k]?true; servedArr[k]=true; k = (k+1) % M;
 	od;
 }
 

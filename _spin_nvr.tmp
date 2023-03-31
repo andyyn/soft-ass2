@@ -1,7 +1,7 @@
-never f3 {    /* !(<> ((req_handler:goArr==1))) */
+never f1 {    /* !(<> ((servedArr[1]==1))) */
 accept_init:
 T0_init:
 	do
-	:: (! (((req_handler:goArr==1)))) -> goto T0_init
+	:: (! (((servedArr[1]==1)))) -> goto T0_init
 	od;
 }

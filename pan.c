@@ -515,8 +515,8 @@ uchar reached5 [] = {
 uchar *loopstate5;
 
 short src_ln4 [] = {
-	  0, 172, 174, 175, 173, 171, 178, 171, 
-	178,   0, };
+	  0, 181, 183, 184, 182, 180, 187, 180, 
+	187,   0, };
 S_F_MAP src_file4 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 8 },
@@ -528,24 +528,24 @@ uchar reached4 [] = {
 uchar *loopstate4;
 
 short src_ln3 [] = {
-	  0, 163, 163, 163, 163, 163, 163, 163, 
-	163, 162, 165, 162, 165,   0, };
+	  0, 172, 172, 172, 172, 172, 170, 174, 
+	170, 174,   0, };
 S_F_MAP src_file3 [] = {
 	{ "-", 0, 0 },
-	{ "sec_multi_env.pml", 1, 12 },
-	{ "-", 13, 14 }
+	{ "sec_multi_env.pml", 1, 9 },
+	{ "-", 10, 11 }
 };
 uchar reached3 [] = {
-	  0,   1,   0,   0,   0,   0,   0,   0, 
-	  0,   0,   1,   1,   0,   0, };
+	  0,   1,   0,   0,   0,   0,   0,   1, 
+	  1,   0,   0, };
 uchar *loopstate3;
 
 short src_ln2 [] = {
-	  0, 103, 105, 106, 107, 109, 110, 111, 
-	112, 113, 114, 115, 116, 117, 118, 119, 
-	120, 121, 122, 123, 124, 125, 126, 127, 
-	128, 108, 135, 135, 136, 104, 138, 104, 
-	138,   0, };
+	  0, 114, 116, 117, 118, 120, 121, 122, 
+	123, 124, 125, 126, 127, 128, 129, 130, 
+	131, 132, 133, 134, 135, 136, 137, 138, 
+	139, 119, 146, 146, 147, 115, 149, 115, 
+	149,   0, };
 S_F_MAP src_file2 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 32 },
@@ -560,8 +560,8 @@ uchar reached2 [] = {
 uchar *loopstate2;
 
 short src_ln1 [] = {
-	  0,  82,  84,  84,  85,  83,  87,  83, 
-	 81,  88,  81,  88,   0, };
+	  0,  93,  95,  95,  96,  94,  98,  94, 
+	 92,  99,  92,  99,   0, };
 S_F_MAP src_file1 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 11 },
@@ -573,16 +573,16 @@ uchar reached1 [] = {
 uchar *loopstate1;
 
 short src_ln0 [] = {
-	  0,  73,  74,  74,  74,  74,  75,  75, 
-	 75,  75,  72,  77,  72,  77,   0, };
+	  0,  85,  85,  85,  85,  86,  86,  86, 
+	 86,  83,  88,  83,  88,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "sec_multi_env.pml", 1, 13 },
-	{ "-", 14, 15 }
+	{ "sec_multi_env.pml", 1, 12 },
+	{ "-", 13, 14 }
 };
 uchar reached0 [] = {
-	  0,   1,   1,   0,   0,   0,   1,   0, 
-	  0,   0,   0,   1,   1,   0,   0, };
+	  0,   1,   0,   0,   0,   1,   0,   0, 
+	  0,   0,   1,   1,   0,   0, };
 uchar *loopstate0;
 uchar reached6[3];  /* np_ */
 uchar *loopstate6;  /* np_ */
@@ -619,7 +619,7 @@ char *procname[] = {
    "main_control",
    "req_handler",
    "req_button",
-   "f3",
+   "f1",
    ":np_:",
 	0
 };
@@ -632,7 +632,7 @@ int Btypes[] = {
    3,	/* main_control */
    3,	/* req_handler */
    3,	/* req_button */
-   1,	/* f3 */
+   1,	/* f1 */
    0	/* :np_: */
 };
 
@@ -908,7 +908,7 @@ addproc(int calling_pid, int priority, int n)
 		reached6[0] = 1;
 		accpstate[6][1] = 1;
 		break;
-	case 5:	/* f3 */
+	case 5:	/* f1 */
 		((P5 *)pptr(h))->_t = 5;
 		((P5 *)pptr(h))->_p = 3;
 #ifdef HAS_PRIORITY
@@ -941,40 +941,16 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 3:	/* req_handler */
 		((P3 *)pptr(h))->_t = 3;
-		((P3 *)pptr(h))->_p = 9;
+		((P3 *)pptr(h))->_p = 6;
 #ifdef HAS_PRIORITY
 		((P3 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached3[9]=1;
+		reached3[6]=1;
 		/* params: */
 		/* locals: */
 		((P3 *)pptr(h))->dest = 0;
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			((P3 *)pptr(h))->servedArr[l_in] = 0;
-		}
-	}
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			((P3 *)pptr(h))->goArr[l_in] = 0;
-		}
-	}
 		((P3 *)pptr(h))->k = 0;
 #ifdef VAR_RANGES
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			logval("req_handler:servedArr[l_in]", ((P3 *)pptr(h))->servedArr[l_in]);
-		}
-	}
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			logval("req_handler:goArr[l_in]", ((P3 *)pptr(h))->goArr[l_in]);
-		}
-	}
 		logval("req_handler:dest", ((P3 *)pptr(h))->dest);
 		logval("req_handler:k", ((P3 *)pptr(h))->k);
 #endif
@@ -1016,11 +992,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* cabin_door */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 10;
+		((P0 *)pptr(h))->_p = 9;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[10]=1;
+		reached0[9]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -12582,6 +12558,18 @@ iniglobals(int calling_pid)
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
+			now.servedArr[l_in] = 0;
+		}
+	}
+	{	int l_in;
+		for (l_in = 0; l_in < 3; l_in++)
+		{
+			requestProcessed[l_in] = 0;
+		}
+	}
+	{	int l_in;
+		for (l_in = 0; l_in < 3; l_in++)
+		{
 			now.floor_request_made[l_in] = 0;
 		}
 	}
@@ -12589,6 +12577,12 @@ iniglobals(int calling_pid)
 		for (l_in = 0; l_in < 3; l_in++)
 		{
 			cabin_door_is_open[l_in] = 0;
+		}
+	}
+	{	int l_in;
+		for (l_in = 0; l_in < 3; l_in++)
+		{
+			goArr[l_in] = 0;
 		}
 	}
 	{	int l_in;
@@ -12641,6 +12635,12 @@ iniglobals(int calling_pid)
 		}
 	}
 #ifdef VAR_RANGES
+	{	int l_in;
+		for (l_in = 0; l_in < 3; l_in++)
+		{
+			logval("servedArr[l_in]", now.servedArr[l_in]);
+		}
+	}
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
@@ -15283,6 +15283,12 @@ void
 c_globals(void)
 {	/* int i; */
 	printf("global vars:\n");
+	{	int l_in;
+		for (l_in = 0; l_in < 3; l_in++)
+		{
+			printf("	bit    servedArr[%d]:	%d\n", l_in, now.servedArr[l_in]);
+		}
+	}
 	printf("	mtype  down:	3\n");
 	printf("	mtype  up:	2\n");
 	printf("	mtype  none:	1\n");
@@ -15369,18 +15375,6 @@ c_locals(int pid, int tp)
 	case 3:
 		printf("local vars proc %d (req_handler):\n", pid);
 	printf("	byte   dest:	%d\n", ((P3 *)pptr(pid))->dest);
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			printf("	bit    servedArr[%d]:	%d\n", l_in, ((P3 *)pptr(pid))->servedArr[l_in]);
-		}
-	}
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			printf("	bit    goArr[%d]:	%d\n", l_in, ((P3 *)pptr(pid))->goArr[l_in]);
-		}
-	}
 	printf("	int    k:	%d\n", ((P3 *)pptr(pid))->k);
 		break;
 	case 2:
@@ -15554,7 +15548,7 @@ c_chandump(int from)
 	printf("\n");
 }
 
-Trans *t_id_lkup[82];
+Trans *t_id_lkup[78];
 
 
 #ifdef BFS_PAR
