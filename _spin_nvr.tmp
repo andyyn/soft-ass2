@@ -1,0 +1,11 @@
+never e {    /* !([] ((! (request?[1])) || (<> ((((current_floor[0]==1)) || ((current_floor[1]==1))) || ((current_floor[2]==1)))))) */
+T0_init:
+	do
+	:: (! ((! (request?[1]))) && ! (((((current_floor[0]==1)) || ((current_floor[1]==1))) || ((current_floor[2]==1))))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((((current_floor[0]==1)) || ((current_floor[1]==1))) || ((current_floor[2]==1))))) -> goto accept_S4
+	od;
+}

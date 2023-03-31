@@ -7,18 +7,21 @@
 //Don't lose your mind wife everything will be okay
 //Thank you schatje i will try my best but i think its already too late the damage is done theres nothing we can do the world is ending
 
+// How to poll a synchronous channel?
 // LTL formulas to be verified
 // When the request button of floor i is pressed, eventually, that request is processed
-ltl e {[](request!i -> <>(floor_request_made[reqid] == false))}
+// ltl e { [] ( request?[1] -> <> (floor_request_made[destination] = false ))};
 // Each elevator eventually processes a request.
 // ltl f {<>(go[k]!dest)}
 // When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
 // ltl g {served[k]?dest -> current_floor[k] == dest}
 // Eventually a request is made at floor number N − 1.
-// ltl h {<>(floor_request_made[N-1]) == true}
+// ltl h {<>(floor_request_made[1]) == true}
 
 // the number of floors
 #define N 3
+
+// ltl h {<>(floor_request_made[2]) == true}
 
 // the number of elevators
 #define M 3
