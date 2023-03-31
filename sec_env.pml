@@ -3,12 +3,12 @@
 	Set up for one elevator and two floors.
 */
 
-// // LTL formulas to be verified
-// ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
-// ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
-// ltl b1 {[]<> (cabin_door_is_open==true)}
-// ltl b2 {[]<> (cabin_door_is_open==false)}
-// ltl c {[] (cabin_door_is_open == true -> floor_door_is_open[current_floor] == true)}
+// LTL formulas to be verified
+// ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))} *When a request is made at floor 1, then eventually the elevator reaches floor 1.*
+// ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))} *When a request is made at floor 2, then eventually the elevator reaches floor 2.*
+// ltl b1 {[]<> (cabin_door_is_open==true)} *Always eventually, the cabin door will be open.*
+// ltl b2 {[]<> (cabin_door_is_open==false)} *Always eventually, the cabin door will be closed.*
+// ltl c {[] (cabin_door_is_open == true -> floor_door_is_open[current_floor] == true)} *When the cabin door of the elevator is open, the floor door of the current floor of that elevator is open as well.*
 
 // the number of floors
 #define N 4
@@ -61,7 +61,7 @@ active proctype elevator_engine() {
 	od;
 }
 
-// DUMMY main control process. Remodel it to control the doors and the engine!
+// main control process
 active proctype main_control() {
 	byte dest;
 	current_floor = 0; // elevator is assumed to be on floor 0 when first connected.
@@ -92,14 +92,15 @@ active proctype main_control() {
 			cabin_door_updated?true;
 		fi
 
-	   // an example assertion.
-	   assert(0 <= current_floor && current_floor < N);
+	   // Assertion properties to be verified
+	   assert(0 <= current_floor && current_floor < N); // Property d:  A request always is for a valid floor, i.e., it has a value between 0 and N.
+
 	   floor_request_made[dest] = false;
 	   served!true;
 	od;
 }
 
-// request handler process. Remodel this process to serve M elevators!
+// request handler process.
 active proctype req_handler() {
 	byte dest;
 	do

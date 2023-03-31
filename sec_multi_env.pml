@@ -3,17 +3,11 @@
 	Set up for one elevator and two floors.
 */
 
-//Soft ass assignment, wijfje
-//Don't lose your mind wife everything will be okay
-//Thank you schatje i will try my best but i think its already too late the damage is done theres nothing we can do the world is ending
-
 // the number of floors
-#define N 3
-
-// ltl h {<>(floor_request_made[2]) == true}
+#define N 4
 
 // the number of elevators
-#define M 3
+#define M 2
 
 bool servedArr[M];
 // to keep track whether elevator processes a request
@@ -27,7 +21,7 @@ bool requestProcessed[N];
 #define reqid _pid - 3*M - 1
 
 // type for direction of elevator
-mtype { down, up, none }; // i want this to be a variable
+mtype { down, up, none };
 mtype directions[M];
 
 // asynchronous channel to handle passenger requestsg
@@ -44,6 +38,7 @@ typedef shafts {
 
 //2d array containing the status of N floor doors of M elevator shafts
 shafts floor_door_is_open[M];
+
 // status and synchronous channels for elevator cabin and engine
 byte current_floor[M];
 bool cabin_door_is_open[M];
@@ -51,36 +46,36 @@ bool cabin_door_is_open[M];
 chan update_cabin_door[M] = [0] of { bool };
 chan cabin_door_updated[M] = [0] of { bool };
 chan move[M] = [0] of { bool };
-chan floor_reached[M] = [0] of { bool }; // i think this is just a flag to send im not sure if it needs that many
+chan floor_reached[M] = [0] of { bool };
 
 // synchronous channels for communication between request handler and main control
 chan go[M] = [0] of { byte };
 chan served[M] = [0] of { bool };
 
-// How to poll a synchronous channel?
 // LTL formulas to be verified
 
-// When the request button of floor i is pressed, eventually, that request is processed
+// Property e: When the request button of floor i is pressed, eventually, that request is processed
 // ltl e1 { [] ( request?[0] -> <> (requestProcessed[0] == true))};
 // ltl e2 { [] ( request?[1] -> <> (requestProcessed[1] == true))};
 // ltl e3 { [] ( request?[2] -> <> (requestProcessed[2] == true))};
 
-// Each elevator eventually processes a request.
+// Property f: Each elevator eventually processes a request.
 // ltl f1 {<> (servedArr[0] == true)};
 // ltl f2 {<> (servedArr[1] == true)};
 // ltl f3 {<> (servedArr[2] == true)};
 
-// When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
-// Modelled as assertion in the main control
+// Property g: When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
+// Modelled as assertion in the main control (line 129)
+
+//Property h: Eventually a request is made at floor number N − 1.
+// ltl h {<>(floor_request_made[2]) == true}
 
 // Eventually a request is made at floor number N − 1.
 // ltl h {<>(floor_request_made[N-1] == true)};
 
-
 // cabin door process
 active[M] proctype cabin_door() { 
 	do
-	// :: printf("%d", current_floor[cabin_door_id]); 
 	:: update_cabin_door[cabin_door_id]?true -> floor_door_is_open[cabin_door_id].shaft[current_floor[cabin_door_id]] = true; cabin_door_is_open[cabin_door_id] = true; cabin_door_updated[cabin_door_id]!true;
 	:: update_cabin_door[cabin_door_id]?false -> cabin_door_is_open[cabin_door_id] = false; floor_door_is_open[cabin_door_id].shaft[current_floor[cabin_door_id]] = false; cabin_door_updated[cabin_door_id]!false;
 	od;
@@ -97,17 +92,7 @@ active[M] proctype elevator_engine() {
 	od;
 }
 
-//theoretical algorithm
-//outside request recieved
-// while(request.pending) / when update comes in  {
-// for elevator 1:n{
-// 	if check request status (or if elevator is idle?){ add request to elevator i request stack and break;}
-//  else if request up and elevator status up and elevator below { >> }
-//  else if request down and elevator status down and elevator up { >> }
-//  }}
-// 	next request
-
-// DUMMY main control process. Remodel it to control the doors and the engine!
+// main control process.
 active[M] proctype main_control() {
 	byte destination;
 	current_floor[main_control_id] = 0;
@@ -138,47 +123,25 @@ active[M] proctype main_control() {
 			cabin_door_updated[main_control_id]?true;
 		fi
 
-		// an example assertion.
-		// assert(0 <= current_floor[main_control_id] && current_floor[main_control_id] < N);
-		// assert(0 <= destination && destination <N);
-		// ltl g1 { [] ( request?[0] && servedArr[0] == true -> current_floor[0] = dest))};
-		// assert(served[0] == true && request?[0] -> current_floor[0] == destination);
-
 		floor_request_made[destination] = false;
 		served[main_control_id]!true;
-		// When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
+
+		//Property h: When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
 		assert(current_floor[main_control_id] == destination);
 	od;
 }
 
-// Note that since request is an asynchronous channel, it serves as a
-// request queue for the handler. Requests made by pressing a floor request button
-// are directly added to the queue. Checking for the presence of requests and
-// assigning them to the elevator, however, does not need to be done by the request
-// handler immediately when a request has been added to request. In other
-// words, request?dest can be executed at any time after a request!reqid
-// has been executed by a req_button process.
 
-// request handler process. Remodel this process to serve M elevators!
-// Possible algorithm:
-// See the request queue, check elevator status
-// If elevator cabin is going up and requested floor is above current floor, assign person to this elevator
-// If elevator cabin is going down and requested floor is below current floor
-// Else it waits until an elevator is available
-// Current algo: assign the next destination in the queue to every elevator
+// request handler proces
 active proctype req_handler() {
 	byte dest;
-	// to keep track whether elevator has served a request
-	int k = 0;
+	int k = 0; // elevator counter variable
    	do
-	// :: printf("%d", k);
     ::	request?dest -> go[k]!dest; served[k]?true; servedArr[k]=true; requestProcessed[dest]=true; k = (k+1) % M;
 	od;
 }
 
 // request button associated to a floor i to request an elevator
-// how many times should this be instantiated?
-// how to find the correct process Id?
 active [N] proctype req_button() {
 	do
 	:: !floor_request_made[reqid] ->
