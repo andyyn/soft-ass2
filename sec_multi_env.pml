@@ -9,7 +9,7 @@
 
 // LTL formulas to be verified
 // When the request button of floor i is pressed, eventually, that request is processed
-// ltl e {[](request!i -> <>(floor_request_made[reqid] == true))}
+ltl e {[](request!i -> <>(floor_request_made[reqid] == false))}
 // Each elevator eventually processes a request.
 // ltl f {<>(go[k]!dest)}
 // When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
@@ -147,9 +147,10 @@ active[M] proctype main_control() {
 // Current algo: assign the next destination in the queue to every elevator
 active proctype req_handler() {
 	byte dest;
+	bool servedArr[M];
 	int k = 0;
    	do
-    ::	request?dest -> go[k]!dest; served[k]?true; k = (k+1) % M;
+    ::	request?dest -> servedArr[k] = false; go[k]!dest; served[k]?true; servedArr[k] = true; k = (k+1) % M;
 	od;
 }
 
