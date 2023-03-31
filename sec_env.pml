@@ -3,15 +3,12 @@
 	Set up for one elevator and two floors.
 */
 
-//Soft ass assignment, wijfje
-//Don't lose your mind wife everything will be okay
-
-// LTL formulas to be verified
-ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
+// // LTL formulas to be verified
+// ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
 // ltl a2 { [] (floor_request_made[2] -> (<> (current_floor == 2)))}
 // ltl b1 {[]<> (cabin_door_is_open==true)}
 // ltl b2 {[]<> (cabin_door_is_open==false)}
-// ltl c {cabin_door_is_open == true -> floor_door_is_open[current_floor] == true}
+// ltl c {[] (cabin_door_is_open == true -> floor_door_is_open[current_floor] == true)}
 
 // the number of floors
 #define N 4
@@ -20,7 +17,9 @@ ltl a1 { [] (floor_request_made[1] -> (<> (current_floor == 1)))}
 #define reqid _pid-4
 
 // type for direction of elevator
-mtype { down, up, none }; // i want this to be a variable
+mtype { down, up, none };
+
+// direction variable for the elevator
 mtype direction;
 
 // asynchronous channel to handle passenger requestsg
@@ -65,11 +64,10 @@ active proctype elevator_engine() {
 // DUMMY main control process. Remodel it to control the doors and the engine!
 active proctype main_control() {
 	byte dest;
-	// mtype direction; //current direction of the elevator
-	current_floor = 0;
+	current_floor = 0; // elevator is assumed to be on floor 0 when first connected.
 	do
 	:: go?dest ->
-		update_cabin_door!false; // The door will close no matter the destination upon recieving a request
+		update_cabin_door!false; // The door will close upon recieving a request
 		cabin_door_updated?false;
 		if
 		:: dest > current_floor -> // Case where destination is above the current floor
@@ -96,8 +94,6 @@ active proctype main_control() {
 
 	   // an example assertion.
 	   assert(0 <= current_floor && current_floor < N);
-//		assert(0 <= dest && dest <N);
-
 	   floor_request_made[dest] = false;
 	   served!true;
 	od;

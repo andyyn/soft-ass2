@@ -1,7 +1,9 @@
-never h {    /* !(<> ((floor_request_made[(3-1)]==1))) */
-accept_init:
+never c {    /* !([] ((! ((cabin_door_is_open==1))) || ((floor_door_is_open[current_floor]==1)))) */
 T0_init:
 	do
-	:: (! (((floor_request_made[(3-1)]==1)))) -> goto T0_init
+	:: atomic { (! (((! ((cabin_door_is_open==1))) || ((floor_door_is_open[current_floor]==1))))) -> assert(!(! (((! ((cabin_door_is_open==1))) || ((floor_door_is_open[current_floor]==1)))))) }
+	:: (1) -> goto T0_init
 	od;
+accept_all:
+	skip
 }
