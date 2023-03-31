@@ -74,7 +74,7 @@ chan served[M] = [0] of { bool };
 // Modelled as assertion in the main control
 
 // Eventually a request is made at floor number N − 1.
-ltl h {<>(floor_request_made[N-1] == true)};
+// ltl h {<>(floor_request_made[N-1] == true)};
 
 
 // cabin door process
