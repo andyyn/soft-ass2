@@ -62,19 +62,19 @@ chan served[M] = [0] of { bool };
 
 // When the request button of floor i is pressed, eventually, that request is processed
 // ltl e1 { [] ( request?[0] -> <> (requestProcessed[0] == true))};
-// ltl e2 { [] ( request?[0] -> <> (req_handler : requestProcessed[0] == true))};
-// ltl e3 { [] ( request?[2] -> <> (req_handler : servedArr[2]))};
+// ltl e2 { [] ( request?[1] -> <> (requestProcessed[1] == true))};
+// ltl e3 { [] ( request?[2] -> <> (requestProcessed[2] == true))};
 
 // Each elevator eventually processes a request.
-ltl f1 {<> (servedArr[0] == true)};
-ltl f2 {<> (servedArr[1] == true)};
-ltl f3 {<> (servedArr[2] == true)};
+// ltl f1 {<> (servedArr[0] == true)};
+// ltl f2 {<> (servedArr[1] == true)};
+// ltl f3 {<> (servedArr[2] == true)};
 
 // When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
-// ltl e1 { [] (servedArr[0] -> current_floor[0] = ))};
+// Modelled as assertion in the main control
 
 // Eventually a request is made at floor number N − 1.
-// ltl h {<>(floor_request_made[1]) == true}
+ltl h {<>(floor_request_made[N-1] == true)};
 
 
 // cabin door process
@@ -140,10 +140,14 @@ active[M] proctype main_control() {
 
 		// an example assertion.
 		// assert(0 <= current_floor[main_control_id] && current_floor[main_control_id] < N);
-		// assert(0 <= dest && dest <N);
+		// assert(0 <= destination && destination <N);
+		// ltl g1 { [] ( request?[0] && servedArr[0] == true -> current_floor[0] = dest))};
+		// assert(served[0] == true && request?[0] -> current_floor[0] == destination);
 
 		floor_request_made[destination] = false;
 		served[main_control_id]!true;
+		// When an elevator signals that it has processed a request via the served channel, its current floor is equal to the destination floor of the request.
+		assert(current_floor[main_control_id] == destination);
 	od;
 }
 
@@ -168,7 +172,7 @@ active proctype req_handler() {
 	int k = 0;
    	do
 	// :: printf("%d", k);
-    ::	request?dest -> go[k]!dest; served[k]?true; servedArr[k]=true; k = (k+1) % M;
+    ::	request?dest -> go[k]!dest; served[k]?true; servedArr[k]=true; requestProcessed[dest]=true; k = (k+1) % M;
 	od;
 }
 

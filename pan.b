@@ -2,7 +2,7 @@
 	default: Uerror("bad return move");
 	case  0: goto R999; /* nothing to undo */
 
-		 /* CLAIM f1 */
+		 /* CLAIM h */
 ;
 		;
 		
@@ -63,17 +63,23 @@
 
 	case 12: // STATE 4
 		;
-		now.servedArr[ Index(((P3 *)_this)->k, 3) ] = trpt->bup.oval;
+		servedArr[ Index(((P3 *)_this)->k, 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
 	case 13: // STATE 5
 		;
+		requestProcessed[ Index(((P3 *)_this)->dest, 3) ] = trpt->bup.oval;
+		;
+		goto R999;
+
+	case 14: // STATE 6
+		;
 		((P3 *)_this)->k = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 14: // STATE 9
+	case 15: // STATE 10
 		;
 		p_restor(II);
 		;
@@ -82,13 +88,13 @@
 
 		 /* PROC main_control */
 
-	case 15: // STATE 1
+	case 16: // STATE 1
 		;
 		now.current_floor[ Index((((P2 *)_this)->_pid-(2*3)), 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 16: // STATE 2
+	case 17: // STATE 2
 		;
 		XX = 1;
 		unrecv(now.go[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ], XX-1, 0, ((int)((P2 *)_this)->destination), 1);
@@ -97,13 +103,13 @@
 		;
 		goto R999;
 
-	case 17: // STATE 3
+	case 18: // STATE 3
 		;
 		_m = unsend(now.update_cabin_door[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 18: // STATE 4
+	case 19: // STATE 4
 		;
 		XX = 1;
 		unrecv(now.cabin_door_updated[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ], XX-1, 0, 0, 1);
@@ -113,19 +119,19 @@
 ;
 		;
 		
-	case 20: // STATE 6
+	case 21: // STATE 6
 		;
 		directions[ Index((((P2 *)_this)->_pid-(2*3)), 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 21: // STATE 7
+	case 22: // STATE 7
 		;
 		_m = unsend(now.move[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 22: // STATE 8
+	case 23: // STATE 8
 		;
 		XX = 1;
 		unrecv(now.floor_reached[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ], XX-1, 0, 1, 1);
@@ -133,25 +139,25 @@
 		;
 		goto R999;
 
-	case 23: // STATE 9
+	case 24: // STATE 9
 		;
 		now.current_floor[ Index((((P2 *)_this)->_pid-(2*3)), 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 24: // STATE 10
+	case 25: // STATE 10
 		;
 		_m = unsend(now.move[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 25: // STATE 11
+	case 26: // STATE 11
 		;
 		_m = unsend(now.update_cabin_door[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 26: // STATE 12
+	case 27: // STATE 12
 		;
 		XX = 1;
 		unrecv(now.cabin_door_updated[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ], XX-1, 0, 1, 1);
@@ -161,19 +167,19 @@
 ;
 		;
 		
-	case 28: // STATE 14
+	case 29: // STATE 14
 		;
 		directions[ Index((((P2 *)_this)->_pid-(2*3)), 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 29: // STATE 15
+	case 30: // STATE 15
 		;
 		_m = unsend(now.move[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 30: // STATE 16
+	case 31: // STATE 16
 		;
 		XX = 1;
 		unrecv(now.floor_reached[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ], XX-1, 0, 1, 1);
@@ -181,25 +187,25 @@
 		;
 		goto R999;
 
-	case 31: // STATE 17
+	case 32: // STATE 17
 		;
 		now.current_floor[ Index((((P2 *)_this)->_pid-(2*3)), 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 32: // STATE 18
+	case 33: // STATE 18
 		;
 		_m = unsend(now.move[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 33: // STATE 19
+	case 34: // STATE 19
 		;
 		_m = unsend(now.update_cabin_door[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 34: // STATE 20
+	case 35: // STATE 20
 		;
 		XX = 1;
 		unrecv(now.cabin_door_updated[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ], XX-1, 0, 1, 1);
@@ -207,19 +213,19 @@
 		;
 		goto R999;
 
-	case 35: // STATE 22
+	case 36: // STATE 22
 		;
 		directions[ Index((((P2 *)_this)->_pid-(2*3)), 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 36: // STATE 23
+	case 37: // STATE 23
 		;
 		_m = unsend(now.update_cabin_door[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
 
-	case 37: // STATE 24
+	case 38: // STATE 24
 		;
 		XX = 1;
 		unrecv(now.cabin_door_updated[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ], XX-1, 0, 1, 1);
@@ -227,19 +233,21 @@
 		;
 		goto R999;
 
-	case 38: // STATE 27
+	case 39: // STATE 27
 		;
 		now.floor_request_made[ Index(((P2 *)_this)->destination, 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 39: // STATE 28
+	case 40: // STATE 28
 		;
 		_m = unsend(now.served[ Index((((int)((P2 *)_this)->_pid)-(2*3)), 3) ]);
 		;
 		goto R999;
-
-	case 40: // STATE 32
+;
+		;
+		
+	case 42: // STATE 33
 		;
 		p_restor(II);
 		;
@@ -248,7 +256,7 @@
 
 		 /* PROC elevator_engine */
 
-	case 41: // STATE 1
+	case 43: // STATE 1
 		;
 		XX = 1;
 		unrecv(now.move[ Index((((int)((P1 *)_this)->_pid)-3), 3) ], XX-1, 0, 1, 1);
@@ -256,7 +264,7 @@
 		;
 		goto R999;
 
-	case 42: // STATE 2
+	case 44: // STATE 2
 		;
 		XX = 1;
 		unrecv(now.move[ Index((((int)((P1 *)_this)->_pid)-3), 3) ], XX-1, 0, 0, 1);
@@ -264,13 +272,13 @@
 		;
 		goto R999;
 
-	case 43: // STATE 4
+	case 45: // STATE 4
 		;
 		_m = unsend(now.floor_reached[ Index((((int)((P1 *)_this)->_pid)-3), 3) ]);
 		;
 		goto R999;
 
-	case 44: // STATE 11
+	case 46: // STATE 11
 		;
 		p_restor(II);
 		;
@@ -279,7 +287,7 @@
 
 		 /* PROC cabin_door */
 
-	case 45: // STATE 1
+	case 47: // STATE 1
 		;
 		XX = 1;
 		unrecv(now.update_cabin_door[ Index(((int)((P0 *)_this)->_pid), 3) ], XX-1, 0, 1, 1);
@@ -287,25 +295,25 @@
 		;
 		goto R999;
 
-	case 46: // STATE 2
+	case 48: // STATE 2
 		;
 		now.floor_door_is_open[ Index(((P0 *)_this)->_pid, 3) ].shaft[ Index(now.current_floor[ Index(((P0 *)_this)->_pid, 3) ], 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 47: // STATE 3
+	case 49: // STATE 3
 		;
 		cabin_door_is_open[ Index(((P0 *)_this)->_pid, 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 48: // STATE 4
+	case 50: // STATE 4
 		;
 		_m = unsend(now.cabin_door_updated[ Index(((int)((P0 *)_this)->_pid), 3) ]);
 		;
 		goto R999;
 
-	case 49: // STATE 5
+	case 51: // STATE 5
 		;
 		XX = 1;
 		unrecv(now.update_cabin_door[ Index(((int)((P0 *)_this)->_pid), 3) ], XX-1, 0, 0, 1);
@@ -313,25 +321,25 @@
 		;
 		goto R999;
 
-	case 50: // STATE 6
+	case 52: // STATE 6
 		;
 		cabin_door_is_open[ Index(((P0 *)_this)->_pid, 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 51: // STATE 7
+	case 53: // STATE 7
 		;
 		now.floor_door_is_open[ Index(((P0 *)_this)->_pid, 3) ].shaft[ Index(now.current_floor[ Index(((P0 *)_this)->_pid, 3) ], 3) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 52: // STATE 8
+	case 54: // STATE 8
 		;
 		_m = unsend(now.cabin_door_updated[ Index(((int)((P0 *)_this)->_pid), 3) ]);
 		;
 		goto R999;
 
-	case 53: // STATE 12
+	case 55: // STATE 12
 		;
 		p_restor(II);
 		;

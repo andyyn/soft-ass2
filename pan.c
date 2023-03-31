@@ -515,8 +515,8 @@ uchar reached5 [] = {
 uchar *loopstate5;
 
 short src_ln4 [] = {
-	  0, 181, 183, 184, 182, 180, 187, 180, 
-	187,   0, };
+	  0, 184, 186, 187, 185, 183, 190, 183, 
+	190,   0, };
 S_F_MAP src_file4 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 8 },
@@ -528,40 +528,40 @@ uchar reached4 [] = {
 uchar *loopstate4;
 
 short src_ln3 [] = {
-	  0, 172, 172, 172, 172, 172, 170, 174, 
-	170, 174,   0, };
+	  0, 175, 175, 175, 175, 175, 175, 173, 
+	177, 173, 177,   0, };
 S_F_MAP src_file3 [] = {
 	{ "-", 0, 0 },
-	{ "sec_multi_env.pml", 1, 9 },
-	{ "-", 10, 11 }
+	{ "sec_multi_env.pml", 1, 10 },
+	{ "-", 11, 12 }
 };
 uchar reached3 [] = {
-	  0,   1,   0,   0,   0,   0,   0,   1, 
-	  1,   0,   0, };
+	  0,   1,   0,   0,   0,   0,   0,   0, 
+	  1,   1,   0,   0, };
 uchar *loopstate3;
 
 short src_ln2 [] = {
-	  0, 114, 116, 117, 118, 120, 121, 122, 
-	123, 124, 125, 126, 127, 128, 129, 130, 
-	131, 132, 133, 134, 135, 136, 137, 138, 
-	139, 119, 146, 146, 147, 115, 149, 115, 
-	149,   0, };
+	  0, 113, 115, 116, 117, 119, 120, 121, 
+	122, 123, 124, 125, 126, 127, 128, 129, 
+	130, 131, 132, 133, 134, 135, 136, 137, 
+	138, 118, 147, 147, 148, 150, 114, 152, 
+	114, 152,   0, };
 S_F_MAP src_file2 [] = {
 	{ "-", 0, 0 },
-	{ "sec_multi_env.pml", 1, 32 },
-	{ "-", 33, 34 }
+	{ "sec_multi_env.pml", 1, 33 },
+	{ "-", 34, 35 }
 };
 uchar reached2 [] = {
 	  0,   0,   1,   0,   0,   1,   0,   0, 
 	  0,   0,   0,   0,   0,   1,   0,   0, 
 	  0,   0,   0,   0,   0,   1,   0,   0, 
-	  0,   0,   1,   0,   0,   0,   1,   1, 
-	  0,   0, };
+	  0,   0,   1,   0,   0,   0,   0,   1, 
+	  1,   0,   0, };
 uchar *loopstate2;
 
 short src_ln1 [] = {
-	  0,  93,  95,  95,  96,  94,  98,  94, 
-	 92,  99,  92,  99,   0, };
+	  0,  92,  94,  94,  95,  93,  97,  93, 
+	 91,  98,  91,  98,   0, };
 S_F_MAP src_file1 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 11 },
@@ -573,8 +573,8 @@ uchar reached1 [] = {
 uchar *loopstate1;
 
 short src_ln0 [] = {
-	  0,  85,  85,  85,  85,  86,  86,  86, 
-	 86,  83,  88,  83,  88,   0, };
+	  0,  84,  84,  84,  84,  85,  85,  85, 
+	 85,  82,  87,  82,  87,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
 	{ "sec_multi_env.pml", 1, 12 },
@@ -619,7 +619,7 @@ char *procname[] = {
    "main_control",
    "req_handler",
    "req_button",
-   "f1",
+   "h",
    ":np_:",
 	0
 };
@@ -632,7 +632,7 @@ int Btypes[] = {
    3,	/* main_control */
    3,	/* req_handler */
    3,	/* req_button */
-   1,	/* f1 */
+   1,	/* h */
    0	/* :np_: */
 };
 
@@ -908,7 +908,7 @@ addproc(int calling_pid, int priority, int n)
 		reached6[0] = 1;
 		accpstate[6][1] = 1;
 		break;
-	case 5:	/* f1 */
+	case 5:	/* h */
 		((P5 *)pptr(h))->_t = 5;
 		((P5 *)pptr(h))->_p = 3;
 #ifdef HAS_PRIORITY
@@ -941,11 +941,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 3:	/* req_handler */
 		((P3 *)pptr(h))->_t = 3;
-		((P3 *)pptr(h))->_p = 6;
+		((P3 *)pptr(h))->_p = 7;
 #ifdef HAS_PRIORITY
 		((P3 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached3[6]=1;
+		reached3[7]=1;
 		/* params: */
 		/* locals: */
 		((P3 *)pptr(h))->dest = 0;
@@ -12558,7 +12558,7 @@ iniglobals(int calling_pid)
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
-			now.servedArr[l_in] = 0;
+			servedArr[l_in] = 0;
 		}
 	}
 	{	int l_in;
@@ -12635,12 +12635,6 @@ iniglobals(int calling_pid)
 		}
 	}
 #ifdef VAR_RANGES
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			logval("servedArr[l_in]", now.servedArr[l_in]);
-		}
-	}
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
@@ -15283,12 +15277,6 @@ void
 c_globals(void)
 {	/* int i; */
 	printf("global vars:\n");
-	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
-		{
-			printf("	bit    servedArr[%d]:	%d\n", l_in, now.servedArr[l_in]);
-		}
-	}
 	printf("	mtype  down:	3\n");
 	printf("	mtype  up:	2\n");
 	printf("	mtype  none:	1\n");
@@ -15548,7 +15536,7 @@ c_chandump(int from)
 	printf("\n");
 }
 
-Trans *t_id_lkup[78];
+Trans *t_id_lkup[80];
 
 
 #ifdef BFS_PAR

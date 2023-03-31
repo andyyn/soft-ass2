@@ -1,7 +1,7 @@
-never f1 {    /* !(<> ((servedArr[1]==1))) */
+never h {    /* !(<> ((floor_request_made[(3-1)]==1))) */
 accept_init:
 T0_init:
 	do
-	:: (! (((servedArr[1]==1)))) -> goto T0_init
+	:: (! (((floor_request_made[(3-1)]==1)))) -> goto T0_init
 	od;
 }

@@ -139,25 +139,25 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates5	7	/* f1 */
-#define minseq5	72
-#define maxseq5	77
+#define _nstates5	7	/* h */
+#define minseq5	74
+#define maxseq5	79
 #define _endstate5	6
 
 #define _nstates4	9	/* req_button */
-#define minseq4	64
-#define maxseq4	71
+#define minseq4	66
+#define maxseq4	73
 #define _endstate4	8
 
-#define _nstates3	10	/* req_handler */
-#define minseq3	55
-#define maxseq3	63
-#define _endstate3	9
+#define _nstates3	11	/* req_handler */
+#define minseq3	56
+#define maxseq3	65
+#define _endstate3	10
 
-#define _nstates2	33	/* main_control */
+#define _nstates2	34	/* main_control */
 #define minseq2	23
-#define maxseq2	54
-#define _endstate2	32
+#define maxseq2	55
+#define _endstate2	33
 
 #define _nstates1	12	/* elevator_engine */
 #define minseq1	12
@@ -183,8 +183,8 @@ extern S_F_MAP src_file1[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	54
-#define _T2	55
+#define _T5	56
+#define _T2	57
 #define WS		8 /* word size in bytes */
 #define SYNC	6
 #define ASYNC	1
@@ -202,7 +202,7 @@ extern S_F_MAP src_file0[];
 struct shafts { /* user defined type */
 	uchar shaft[3];
 };
-typedef struct P5 { /* f1 */
+typedef struct P5 { /* h */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 4; /* proctype */
 	unsigned _p   : 7; /* state    */
@@ -470,7 +470,6 @@ typedef struct State {
 		unsigned short _event;
 	#endif
 #endif
-	uchar servedArr[3];
 	uchar floor_request_made[3];
 	uchar current_floor[3];
 	uchar request;
@@ -502,6 +501,7 @@ typedef struct TRIX_v6 {
 #endif
 
 #define HAS_TRACK	0
+/* hidden variable: */	uchar servedArr[3];
 /* hidden variable: */	uchar requestProcessed[3];
 /* hidden variable: */	uchar cabin_door_is_open[3];
 /* hidden variable: */	uchar goArr[3];
@@ -516,7 +516,7 @@ typedef struct TRIX_v6 {
 #define _start6	0 /* np_ */
 #define _start5	3
 #define _start4	5
-#define _start3	6
+#define _start3	7
 #define _start2	1
 #define _start1	8
 #define _start0	9
@@ -1012,7 +1012,7 @@ void qsend(int, int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	56
+#define NTRANS	58
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);
